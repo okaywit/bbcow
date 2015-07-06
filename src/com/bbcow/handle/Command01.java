@@ -10,11 +10,10 @@ import com.bbcow.CowCache;
 import com.bbcow.CowSession;
 import com.bbcow.db.MongoPool;
 import com.bbcow.po.Paper;
+import com.bbcow.util.RequestParam;
 
 /**
- * Ö¸Áî
- * 
- * @author ´ó»ÔFace
+ * @author å¤§è¾‰Face
  */
 public class Command01 implements ICommand {
 
@@ -28,13 +27,15 @@ public class Command01 implements ICommand {
                 paper.setTag(object.getString("tag"));
                 paper.setTitle(object.getString("title"));
                 paper.setImgUrl(object.getString("imgUrl"));
+                paper.setBadCount(0);
+                paper.setGoodCount(0);
 
                 MongoPool.insertPaper(paper);
 
                 for (Iterator<CowSession> it = CowCache.cowMap.values().iterator(); it.hasNext();) {
                         try {
                                 Session s = it.next().getSession();
-                                s.getBasicRemote().sendText(message);
+                                s.getBasicRemote().sendText(RequestParam.returnJson(1, object.toString()));
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }

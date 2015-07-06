@@ -8,7 +8,7 @@ Server.connect = (function(host){
 
     Server.socket = new WebSocket(host);
     Server.socket.onopen=function(){
-
+    	
     };
     Server.socket.onmessage=function(message){
         //showMsg(message);

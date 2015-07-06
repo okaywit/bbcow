@@ -3,12 +3,20 @@ package com.bbcow.util;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * Json½âÎö
+ * Jsonè§£æ
  * 
- * @author ´ó»ÔFace
+ * @author å¤§è¾‰Face
  */
 public class RequestParam {
-        public void toParam(String message) {
+        public static void toParam(String message) {
                 JSONObject object = JSONObject.parseObject(message);
+        }
+
+        /**
+         * è¿”å›Json
+         * æ ¼å¼ï¼š{"type":"","data":"{}"}
+         */
+        public static String returnJson(int type, String message) {
+                return "{\"type\":" + type + ",\"data\":" + message + "}";
         }
 }

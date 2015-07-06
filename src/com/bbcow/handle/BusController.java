@@ -19,11 +19,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.bbcow.CowCache;
 import com.bbcow.CowSession;
 import com.bbcow.db.MongoPool;
+import com.bbcow.util.RequestParam;
 
 /**
- * ÖÐÑë¿ØÖÆÆ÷
+ * ä¸­å¤®æŽ§åˆ¶å™¨
  * 
- * @author ´ó»ÔFace
+ * @author å¤§è¾‰Face
  */
 @ServerEndpoint("/bb")
 public class BusController {
@@ -32,7 +33,7 @@ public class BusController {
 
         static {
                 try {
-                        PropertyConfigurator.configure(new URL("http://grownbook.com/log4j.properties"));
+                        PropertyConfigurator.configure(new URL("http://127.0.0.1/log4j.properties"));
                 } catch (MalformedURLException e) {
                         e.printStackTrace();
                 }
@@ -42,12 +43,12 @@ public class BusController {
         public void open(Session session) {
                 long index = cowIndex.getAndIncrement();
                 CowCache.cowMap.put(session.getId(), new CowSession(index, session));
-
                 logger.info(session.getId() + " come in! ");
-
                 try {
-                        for (String s : MongoPool.findAllWithJson())
-                                session.getBasicRemote().sendText(s);
+                        for (String s : MongoPool.findAllWithJson()) {
+                                System.out.println(s);
+                                session.getBasicRemote().sendText(RequestParam.returnJson(1, s));
+                        }
 
                 } catch (IOException e) {
                         e.printStackTrace();
@@ -55,9 +56,19 @@ public class BusController {
         }
 
         @OnMessage
-        public void message(String message) {
-                JSONObject object = JSONObject.parseObject(message);
-                CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
+        public void message(String message, Session session) {
+                boolean result = CowCache.filterChain.filter(message);
+
+                if (result) {
+                        JSONObject object = JSONObject.parseObject(message);
+                        CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
+                } else {
+                        try {
+                                session.getBasicRemote().sendText(RequestParam.returnJson(0, "{}"));
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
         }
 
         @OnClose

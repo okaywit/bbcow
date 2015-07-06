@@ -13,9 +13,9 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 
 /**
- * mogodbÁ¬½Ó³Ø
+ * mogodb
  * 
- * @author ´ó»ÔFace
+ * @author å¤§è¾‰Face
  */
 public class MongoPool {
         private static MongoClient mongoClient;
@@ -46,6 +46,8 @@ public class MongoPool {
                                 .append("contactTel", paper.getContactTel())
                                 .append("tag", paper.getTag())
                                 .append("imgUrl", paper.getImgUrl())
-                                .append("createDate", new Date()));
+                                .append("createDate", new Date())
+                                .append("goodCount", paper.getGoodCount())
+                                .append("badCount", paper.getBadCount()));
         }
 }

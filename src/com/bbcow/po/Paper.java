@@ -8,6 +8,8 @@ public class Paper {
         private String contactTel;
         private String tag;
         private String imgUrl;
+        private long goodCount;
+        private long badCount;
 
         public long getId() {
                 return id;
@@ -51,6 +53,22 @@ public class Paper {
 
         public String getTag() {
                 return tag;
+        }
+
+        public long getGoodCount() {
+                return goodCount;
+        }
+
+        public void setGoodCount(long goodCount) {
+                this.goodCount = goodCount;
+        }
+
+        public long getBadCount() {
+                return badCount;
+        }
+
+        public void setBadCount(long badCount) {
+                this.badCount = badCount;
         }
 
         public void setTag(String tag) {

@@ -7,13 +7,16 @@
     <meta name="description" content="新兴媒体广告推广平台。" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
+<link href="http://fonts.useso.com/css?family=Noto+Sans+CJK" rel="stylesheet" />
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet'>
+<style type="text/css">
+	body{font-family:'Noto Sans CJK';}
+</style>
 
 <body class="container">
 	<div class="row" id="ad">
-        <div class="col-md-12 col-xs-12" id="ad1">
+        <div class="col-md-12 col-xs-12">
 		    <script type="text/javascript">
 		    /*专题页*/
 		    var cpro_id = "u1987591";
@@ -21,68 +24,66 @@
 			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 		</div>
 	</div>
-    <div class="row" id="r">
-        <div class="col-md-3 col-xs-12" id="a1">
-            <form method="post">
-                <div class="panel panel-success">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">
-                        <button type="submit" onclick="return goRelease()" class="btn btn-success">发布</button>
-                    </div>
-                    <div class="panel-body">
-                        <textarea class="form-control" id="content" style="resize: none;" maxlength="400" rows="8" placeholder="内容限制400字" required="required"></textarea>
-                    </div>
-                    <!-- Table -->
-                    <table class="table">
-                        <tr>
-                            <td>
-                                <input type="text" id="title" required="required" class="form-control" placeholder="标题"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="imgUrl"  class="form-control" placeholder="图片地址"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" id="contactName" required="required" class="form-control" placeholder="联系人"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" name="contactTel" id="contactTel" class="form-control"  placeholder="联系方式"/>
-                            </td>
-                        </tr>
-                        <!-- <tr>
-                            <td>
-                                <input type="text" id="tag" class="form-control" placeholder="标签"/>
-                            </td>
-                        </tr> -->
-                    </table>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <nav class="navbar navbar-inverse navbar-fixed-bottom">
-        <div class="container">
-            <div class="navbar-header">
-                <ul class="nav nav-pills">
-                    <li role="presentation" class="">
-                        <a class="back-to-top" href="#top">回到顶部</a>
-                    </li>
-                    <li role="presentation" class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                            快链<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" id="l" role="menu"></ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
+	<div class="row">
+	    <div class="col-md-9 col-xs-12" role="main">
+			<ul class="media-list" id="media">
+				<li class="media"></li>
+			</ul>
+		</div>
+		<div class="col-md-3 col-xs-12" role="complementary">
+			<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+	            <ul class="nav bs-docs-sidenav" id="l"></ul>
+	            <a class="back-to-top" href="#top">
+	              	返回顶部
+	            </a>
+	        </nav>
+		</div>
+	</div>
+	<!-- Button trigger modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	  	<form method="post">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">发布页面</h4>
+		      </div>
+		      <div class="modal-body">
+				<input type="text" id="title" required="required" class="form-control" placeholder="标题"/>
+		      	<br/>
+		      	<textarea class="form-control" id="content" style="resize: none;" maxlength="400" rows="4" placeholder="内容限制400字" required="required"></textarea>
+	            <br/>        
+	            <input type="text" id="imgUrl"  class="form-control" placeholder="图片地址"/>    
+	            <br/>
+	            <input type="text" id="contactName" required="required" class="form-control" placeholder="微信、微博、QQ"/>            
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+		        <button type="submit" class="btn btn-primary" onclick="return goRelease()" class="btn btn-success">发布</button>
+		      </div>
+		    </div>
+	    </form>
+	  </div>
+	</div>
+	
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+    	<div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">八牛号外</a>
+		    </div>
+	    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	        	<button  type="button" class="btn btn-active navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
+	        </div>
+		</div>
     </nav>
-
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 
@@ -94,24 +95,33 @@
         var i=0;
         Server.socket.onmessage=function(message){
             var data = eval('('+message.data+')');
-            console.log(data);
-            var pa = new Paper();
-            pa.id=data["id"];
-            pa.title=data["title"];
-            pa.content=data["content"];
-            pa.contactName=data["contactName"];
-            pa.contactTel=data["contactTel"];
-            pa.tag=data["tag"];
-            pa.imgUrl=data["imgUrl"];
-            pa.packToDemo();
-            pa.demoLink();
-            i++;
+            if(data["type"]==0){
+            	alert("error");
+            	
+            }
+            if(data["type"]==1){
+            	var pa = new Paper();
+                pa.id=data["data"]["id"];
+                pa.title=data["data"]["title"];
+                pa.content=data["data"]["content"];
+                pa.contactName=data["data"]["contactName"];
+                pa.contactTel=data["data"]["contactTel"];
+                pa.tag=data["data"]["tag"];
+                pa.goodCount=data["data"]["goodCount"]["$numberLong"];
+                pa.badCount=data["data"]["badCount"]["$numberLong"];
+                pa.imgUrl=data["data"]["imgUrl"];
+                pa.packToDemo();
+                pa.demoLink();
+                i++;
+            }
+            
+            
         };
         function goRelease() {
             var title = document.getElementById("title").value;
             var content = document.getElementById("content").value;
             var contactName = document.getElementById("contactName").value;
-            var contactTel = document.getElementById("contactTel").value;
+            var contactTel = "";//document.getElementById("contactTel").value;
             var tag = "";//document.getElementById("tag").value;
             var imgUrl = document.getElementById("imgUrl").value;
             if(title.replace(/^ +| +$/g,'')==''){
@@ -127,13 +137,13 @@
                 return;
             }
 
-            var paper = '{"cId":1,"data":{"title":"' + title + '","content":"' + content + '","contactName":"' + contactName + '","contactTel":"' + contactTel + '","tag":"' + tag + '","imgUrl":"' + imgUrl + '"}}';
+            var paper = '{"cId":1,"sId":"","data":{"title":"' + title + '","content":"' + content + '","contactName":"' + contactName + '","contactTel":"' + contactTel + '","tag":"' + tag + '","imgUrl":"' + imgUrl + '"}}';
             Server.socket.send(paper);
 
             document.getElementById("title").value="";
             document.getElementById("content").value="";
             document.getElementById("contactName").value="";
-            document.getElementById("contactTel").value="";
+            //document.getElementById("contactTel").value="";
             //document.getElementById("tag").value="";
             document.getElementById("imgUrl").value="";
 
@@ -148,74 +158,81 @@
             this.contactTel;
             this.tag;
             this.imgUrl
+            this.goodCount;
+            this.badCount;
         }
         Paper.prototype.demoLink=function(){
             var ul = document.getElementById("l");
             var li = document.createElement("li");
+            
             var a = document.createElement("a");
-            a.setAttribute("href","#"+this.id);
+            a.setAttribute("href","#"+this.title);
             a.appendChild(document.createTextNode(this.title));
             li.appendChild(a);
             ul.appendChild(li);
         };
         Paper.prototype.packToDemo=function(){
-            var div = document.createElement("div");
-            div.setAttribute("id", this.id);
-            div.setAttribute("class", "col-md-3  col-xs-12");
-
-            var innerDiv = document.createElement("div");
-            innerDiv.setAttribute("class", "panel panel-info");
-
-            var head = document.createElement("div");
-            head.setAttribute("class", "panel-heading");
-            head.appendChild(document.createTextNode(this.title));
-            innerDiv.appendChild(head);
-
-            var body = document.createElement("div");
-            body.setAttribute("class", "panel-body");
-            var img = document.createElement("img");
-            img.setAttribute("class", "col-md-12 col-xs-12");
-            img.setAttribute("src",this.imgUrl);
-            body.appendChild(img);
-            innerDiv.appendChild(body);
-            
-            
-            var body = document.createElement("div");
-            body.setAttribute("class", "panel-body");
-            body.setAttribute("style","word-wrap: break-word;height:120px");
-            body.appendChild(document.createTextNode(this.content));
-            innerDiv.appendChild(body);
-
-            var table = document.createElement("table");
-            table.setAttribute("class", "table");
-            var tbody = document.createElement("tbody");
-
-            var tr = document.createElement("tr");
-            var td = document.createElement("td");
-            var tel = document.createElement("span");
-            tel.setAttribute("class","glyphicon glyphicon-phone-alt");
-            tel.setAttribute("aria-hidden","true");
-            tel.appendChild(document.createTextNode(" "+this.contactName));
-            tel.appendChild(document.createTextNode(" "+this.contactTel));
-            td.appendChild(tel);
-            tr.appendChild(td);
-            tbody.appendChild(tr);
-
-            /* var tr1 = document.createElement("tr");
-            var td1 = document.createElement("td");
-            var tag = document.createElement("span");
-            tag.setAttribute("class","glyphicon glyphicon-tags");
-            tag.setAttribute("aria-hidden","true");
-            tag.appendChild(document.createTextNode(" "+this.tag));
-            td1.appendChild(tag);
-            tr1.appendChild(td1);
-            tbody.appendChild(tr1); */
-
-            table.appendChild(tbody);
-
-            innerDiv.appendChild(table);
-            div.appendChild(innerDiv);
-            document.getElementById("r").insertBefore(div,document.getElementById(i-1));
+        	var ul = document.getElementById("media");
+        	var li = document.createElement("li");
+        	li.setAttribute("class","media well")
+        	
+        	var left = document.createElement("div");
+        	left.setAttribute("class", "media-left");
+        	left.setAttribute("id", this.title);
+        	var a = document.createElement("a");
+        	a.setAttribute("href", this.imgUrl);
+        	a.setAttribute("target", "_blank");
+			var img = document.createElement("img");
+			img.setAttribute("class", "media-object");
+			img.setAttribute("data-src", "holder.js/64x64");
+			img.setAttribute("data-holder-rendered", "true");
+			img.setAttribute("style", "width: 64px; height: 64px;");
+			img.setAttribute("src",this.imgUrl);
+			a.appendChild(img);
+        	left.appendChild(a);
+        	
+        	var body = document.createElement("div");
+        	body.setAttribute("class", "media-body");
+        	var head = document.createElement("h4");
+        	head.setAttribute("class", "media-heading");
+        	head.appendChild(document.createTextNode(this.title));
+        	var content = document.createElement("p");
+        	content.appendChild(document.createTextNode(this.content));
+        	var bul = document.createElement("ul");
+        	bul.setAttribute("class","nav nav-pills")
+        	bul.setAttribute("role","tablist")
+        	
+        	var bli1 = document.createElement("li");
+        	bli1.setAttribute("role","presentation");
+        	var a1 = document.createElement("a");
+        	a1.setAttribute("href","#");
+        	a1.appendChild(document.createTextNode("Good"));
+        	var span1 = document.createElement("span");
+        	span1.setAttribute("class","badge");
+        	span1.appendChild(document.createTextNode(this.goodCount));
+        	a1.appendChild(span1);
+        	bli1.appendChild(a1);
+        	
+        	var bli2 = document.createElement("li");
+        	bli2.setAttribute("role","presentation");
+        	var a2 = document.createElement("a");
+        	a2.setAttribute("href","#");
+        	a2.appendChild(document.createTextNode("Bad"));
+        	var span2 = document.createElement("span");
+        	span2.setAttribute("class","badge");
+        	span2.appendChild(document.createTextNode(this.badCount));
+        	a2.appendChild(span2);
+        	bli2.appendChild(a2);
+        	bul.appendChild(bli1);
+        	bul.appendChild(bli2);
+        	body.appendChild(head);
+        	body.appendChild(content);
+        	body.appendChild(bul);
+        	
+        	li.appendChild(left);
+        	li.appendChild(body);
+        	ul.appendChild(li);
+           
         };
 
 
