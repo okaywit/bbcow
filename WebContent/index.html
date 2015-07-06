@@ -47,7 +47,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">发布页面</h4>
+		        <h4 class="modal-title" id="myModalLabel">号外</h4>
 		      </div>
 		      <div class="modal-body">
 				<input type="text" id="title" required="required" class="form-control" placeholder="标题"/>
@@ -60,7 +60,7 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-		        <button type="submit" class="btn btn-primary" onclick="return goRelease()" class="btn btn-success">发布</button>
+		        <button type="submit" class="btn btn-primary" onclick="return goRelease()" class="btn btn-success" data-dismiss="modal">发布</button>
 		      </div>
 		    </div>
 	    </form>
@@ -80,7 +80,7 @@
 		      <a class="navbar-brand" href="#">八牛号外</a>
 		    </div>
 	    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	        	<button  type="button" class="btn btn-active navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
+	        	<button  type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
 	        </div>
 		</div>
     </nav>
@@ -101,14 +101,20 @@
             }
             if(data["type"]==1){
             	var pa = new Paper();
-                pa.id=data["data"]["id"];
+                pa.id=data["data"]["id"]["$numberLong"];
                 pa.title=data["data"]["title"];
                 pa.content=data["data"]["content"];
                 pa.contactName=data["data"]["contactName"];
                 pa.contactTel=data["data"]["contactTel"];
                 pa.tag=data["data"]["tag"];
                 pa.goodCount=data["data"]["goodCount"]["$numberLong"];
+                if(pa.goodCount === undefined){
+                	pa.goodCount = 0;
+                }
                 pa.badCount=data["data"]["badCount"]["$numberLong"];
+                if(pa.badCount === undefined){
+                	pa.badCount = 0;
+                }
                 pa.imgUrl=data["data"]["imgUrl"];
                 pa.packToDemo();
                 pa.demoLink();
@@ -206,6 +212,7 @@
         	bli1.setAttribute("role","presentation");
         	var a1 = document.createElement("a");
         	a1.setAttribute("href","#");
+        	a1.setAttribute("onclick","doLike("+this.id+")");
         	a1.appendChild(document.createTextNode("Good"));
         	var span1 = document.createElement("span");
         	span1.setAttribute("class","badge");
@@ -234,7 +241,14 @@
         	ul.appendChild(li);
            
         };
-
+		function doLike(id){
+			 var paper = '{"cId":2,"sId":"","data":{"id":"'+id+'","type":"1","ip":""}}';
+	         Server.socket.send(paper);	
+		}
+		function doNotLike(id){
+			 var paper = '{"cId":2,"sId":"","data":{"id":"'+id+'","type":"0","ip":""}}';
+	         Server.socket.send(paper);	
+		}
 
     </script>
 	<script type="text/javascript">

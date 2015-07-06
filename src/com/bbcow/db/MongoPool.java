@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bson.BSON;
+import org.bson.BSONObject;
+import org.bson.BsonDocument;
 import org.bson.Document;
 
 import com.bbcow.po.Paper;
@@ -49,5 +52,9 @@ public class MongoPool {
                                 .append("createDate", new Date())
                                 .append("goodCount", paper.getGoodCount())
                                 .append("badCount", paper.getBadCount()));
+        }
+        public static void updatePaper(long id) {
+        	//TODO
+        	db.getCollection("paper").updateOne(BsonDocument.parse("{id:"+id+"}"),BsonDocument.parse("{id:1}"));
         }
 }

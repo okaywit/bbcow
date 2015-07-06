@@ -45,8 +45,8 @@ public class BusController {
                 CowCache.cowMap.put(session.getId(), new CowSession(index, session));
                 logger.info(session.getId() + " come in! ");
                 try {
+                	MongoPool.updatePaper();
                         for (String s : MongoPool.findAllWithJson()) {
-                                System.out.println(s);
                                 session.getBasicRemote().sendText(RequestParam.returnJson(1, s));
                         }
 

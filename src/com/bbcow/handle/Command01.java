@@ -21,6 +21,7 @@ public class Command01 implements ICommand {
         public void process(String message) {
                 JSONObject object = JSONObject.parseObject(message);
                 Paper paper = new Paper();
+                paper.setId(System.currentTimeMillis());
                 paper.setContactName(object.getString("contactName"));
                 paper.setContactTel(object.getString("contactTel"));
                 paper.setContent(object.getString("content"));
@@ -34,8 +35,9 @@ public class Command01 implements ICommand {
 
                 for (Iterator<CowSession> it = CowCache.cowMap.values().iterator(); it.hasNext();) {
                         try {
+                        		System.out.println(JSONObject.toJSONString(paper));
                                 Session s = it.next().getSession();
-                                s.getBasicRemote().sendText(RequestParam.returnJson(1, object.toString()));
+                                s.getBasicRemote().sendText(RequestParam.returnJson(1, JSONObject.toJSONString(paper)));
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
