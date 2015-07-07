@@ -7,12 +7,8 @@
     <meta name="description" content="新兴媒体广告推广平台。" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
-<link href="http://fonts.useso.com/css?family=Noto+Sans+CJK" rel="stylesheet" />
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<style type="text/css">
-	body{font-family:'Noto Sans CJK';}
-</style>
 
 <body class="container">
 	<div class="row" id="ad">
@@ -32,11 +28,13 @@
 		</div>
 		<div class="col-md-3 col-xs-12" role="complementary">
 			<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
-	            <ul class="nav bs-docs-sidenav" id="l"></ul>
-	            <a class="back-to-top" href="#top">
-	              	返回顶部
-	            </a>
+	            <ul class="nav bs-docs-sidenav" id="l">
+		            <li><a class="back-to-top" href="#top">
+		              	返回顶部
+		            </a></li>
+	            </ul>
 	        </nav>
+	        
 		</div>
 	</div>
 	<!-- Button trigger modal -->
@@ -66,7 +64,12 @@
 	    </form>
 	  </div>
 	</div>
-	
+             
+	<script type="text/javascript">
+	    var cpro_id="u1987591";
+	    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
+	</script>
+	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>           
     <nav class="navbar navbar-default navbar-fixed-bottom">
     	<div class="container">
 		    <!-- Brand and toggle get grouped for better mobile display -->
@@ -102,6 +105,9 @@
             if(data["type"]==1){
             	var pa = new Paper();
                 pa.id=data["data"]["id"]["$numberLong"];
+                if(pa.id == undefined || pa.id == Object){
+                	 pa.id=data["data"]["id"];
+                }
                 pa.title=data["data"]["title"];
                 pa.content=data["data"]["content"];
                 pa.contactName=data["data"]["contactName"];
@@ -216,6 +222,7 @@
         	a1.appendChild(document.createTextNode("Good"));
         	var span1 = document.createElement("span");
         	span1.setAttribute("class","badge");
+        	span1.setAttribute("id","s1"+this.id);
         	span1.appendChild(document.createTextNode(this.goodCount));
         	a1.appendChild(span1);
         	bli1.appendChild(a1);
@@ -224,9 +231,11 @@
         	bli2.setAttribute("role","presentation");
         	var a2 = document.createElement("a");
         	a2.setAttribute("href","#");
+        	a2.setAttribute("onclick","doNotLike("+this.id+")");
         	a2.appendChild(document.createTextNode("Bad"));
         	var span2 = document.createElement("span");
         	span2.setAttribute("class","badge");
+        	span2.setAttribute("id","s2"+this.id);
         	span2.appendChild(document.createTextNode(this.badCount));
         	a2.appendChild(span2);
         	bli2.appendChild(a2);
@@ -242,20 +251,51 @@
            
         };
 		function doLike(id){
+			 if(localStorage.paperIds){
+				 var ids = localStorage.paperIds.split(",");
+				 for(i in ids){
+					 if(id == ids[i]){
+						 alert("已投票");
+						 return;
+					 }
+				 }
+				 ids.push(id);
+				 localStorage.paperIds = ids;
+			 }else{
+				 var ids = new Array();
+				 ids.push(id);
+				 localStorage.paperIds=ids; 
+			 }
+
+			 var likeCount = document.getElementById("s1"+id+"").innerText;
+			 document.getElementById("s1"+id+"").innerText = 1+parseInt(likeCount);
 			 var paper = '{"cId":2,"sId":"","data":{"id":"'+id+'","type":"1","ip":""}}';
 	         Server.socket.send(paper);	
 		}
 		function doNotLike(id){
+			if(localStorage.paperIds){
+				 var ids = localStorage.paperIds.split(",");
+				 for(i in ids){
+					 if(id == ids[i]){
+						 alert("已投票");
+						 return;
+					 }
+				 }
+				 ids.push(id);
+				 localStorage.paperIds = ids;
+			 }else{
+				 var ids = new Array();
+				 ids.push(id);
+				 localStorage.paperIds=ids; 
+			 }
+
+			 var unlikeCount = document.getElementById("s2"+id+"").innerText;
+			 document.getElementById("s2"+id+"").innerText = 1+parseInt(unlikeCount);
 			 var paper = '{"cId":2,"sId":"","data":{"id":"'+id+'","type":"0","ip":""}}';
 	         Server.socket.send(paper);	
 		}
 
     </script>
-	<script type="text/javascript">
-	    /*内文*/
-	var cpro_id = "u1969713";
-	</script>
-	<script src="http://cpro.baidustatic.com/cpro/ui/cnw.js" type="text/javascript"></script>
 	<script>
 	var _hmt = _hmt || [];
 	(function() {
@@ -265,6 +305,5 @@
 	  s.parentNode.insertBefore(hm, s);
 	})();
 	</script>
-	
 </body>
 </html>

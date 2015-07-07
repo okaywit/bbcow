@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bson.BSON;
-import org.bson.BSONObject;
 import org.bson.BsonDocument;
 import org.bson.Document;
 
@@ -53,8 +51,17 @@ public class MongoPool {
                                 .append("goodCount", paper.getGoodCount())
                                 .append("badCount", paper.getBadCount()));
         }
-        public static void updatePaper(long id) {
-        	//TODO
-        	db.getCollection("paper").updateOne(BsonDocument.parse("{id:"+id+"}"),BsonDocument.parse("{id:1}"));
+
+        public static void insertPaperTrend(long paperId, int type) {
+                db.getCollection("paper_trend").insertOne(new Document("paper_id", paperId).append("type", type).append("ip", "").append("createDate", new Date()));
+
+        }
+
+        public static void doNotLike(long id) {
+                db.getCollection("paper").updateOne(BsonDocument.parse("{id:" + id + "}"), BsonDocument.parse("{$inc:{badCount:1}}"));
+        }
+
+        public static void doLike(long id) {
+                db.getCollection("paper").updateOne(BsonDocument.parse("{id:" + id + "}"), BsonDocument.parse("{$inc:{goodCount:1}}"));
         }
 }

@@ -45,7 +45,6 @@ public class BusController {
                 CowCache.cowMap.put(session.getId(), new CowSession(index, session));
                 logger.info(session.getId() + " come in! ");
                 try {
-                	MongoPool.updatePaper();
                         for (String s : MongoPool.findAllWithJson()) {
                                 session.getBasicRemote().sendText(RequestParam.returnJson(1, s));
                         }
@@ -58,7 +57,6 @@ public class BusController {
         @OnMessage
         public void message(String message, Session session) {
                 boolean result = CowCache.filterChain.filter(message);
-
                 if (result) {
                         JSONObject object = JSONObject.parseObject(message);
                         CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
