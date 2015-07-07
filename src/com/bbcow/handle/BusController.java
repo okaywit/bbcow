@@ -46,7 +46,7 @@ public class BusController {
                 logger.info(session.getId() + " come in! ");
                 try {
                         for (String s : MongoPool.findAllWithJson()) {
-                                session.getBasicRemote().sendText(RequestParam.returnJson(1, s));
+                                session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, s));
                         }
 
                 } catch (IOException e) {
@@ -62,7 +62,7 @@ public class BusController {
                         CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
                 } else {
                         try {
-                                session.getBasicRemote().sendText(RequestParam.returnJson(0, "{}"));
+                                session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_ERROR, "{}"));
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }

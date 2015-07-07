@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>网络那些事 - 分享网络上的视频、音频、图片、信息</title>
+    <meta name="keywords" content="广告,免费,免费广告,聊天,八牛号外" />
+    <meta name="description" content="新兴媒体广告推广平台。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<body class="container">
+	<div class="row" style="height:100%">
+        <div class="col-md-12 col-xs-12 well" role="main" id="chat_log" >
+		    
+		</div>
+		<div class="col-md-12 col-xs-12" role="complementary" id="demo" >
+			 <h4>修改名称：@新名称</h4>
+			 <h4>视频、音频、图片只支持地址发送</h4>
+			 <small>视频发送：http://grownbook.com/content/video.mp4，格式支持：mp4,webm,avi</small><br/>
+			 <small>音频发送：http://grownbook.com/content/audio.mp3，格式支持：mp3,ogg,aac</small><br/>
+			 <small>图片发送：http://grownbook.com/img/fp.jpg，格式支持：bmp,jpg,png,gif</small>
+		</div>
+	</div>
+	
+	
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+    	<div class="container">
+	    	<input type="text" class="form-control" id="message" onkeydown="checkCode(event)" placeholder="Enter发送，支持文字、视频URL、音频URL、图片URL">
+		</div>
+    </nav>
+	
+	
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/socket.js"></script>
+    <script type="text/javascript">
+        Server.init();
+        if(localStorage.fakeName == undefined){
+        	localStorage.fakeName = prompt("请输入一个屌炸天的名称", "");
+        }
+        
+        Server.socket.onmessage=function(message){
+            var data = eval('('+message.data+')');
+            if(data["type"]==2){
+            	showMsg(data["data"]["msg"],data["data"]["fakeName"]);
+            }
+            if(data["type"]==3){
+            	showMsg(data["data"]["title"],"推广");
+            }
+        };
+        function showMsg(msg,fakeName){
+        	var div = document.getElementById("chat_log");
+        	var innerDiv = document.createElement("div");
+        	innerDiv.setAttribute("class","row");
+        	innerDiv.setAttribute("name","word_log");
+        	innerDiv.appendChild(document.createTextNode(fakeName+": "));
+        	
+        	var imgReg=/^\S*.(bmp|jpg|tiff|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw){1}$/;
+        	var videoReg=/^\S*.(mp4|mpge4|webm|avi){1}$/;  
+        	var audioReg=/^\S*.(mp3|ogg|aac){1}$/;  
+        	var changeName=/^@\S*$/;
+        	var ad=/^##\S*$/;
+        	if(imgReg.test(msg)){
+        		innerDiv.appendChild(demoImg(msg));
+        	}else if(videoReg.test(msg)){
+        		innerDiv.appendChild(demoVideo(msg));
+        	}else if(audioReg.test(msg)){
+        		innerDiv.appendChild(demoAudio(msg));
+        	}else if(changeName.test(msg)){
+        		localStorage.fakeName = msg.substring(1,msg.length);
+        		return;
+        	}else if(ad.test(msg)){
+        		pushAd(msg.substring(2,msg.length));
+        		return;
+        	}else{
+        		innerDiv.appendChild(document.createTextNode(msg));	
+        	}
+        	
+        	var w = document.getElementsByName("word_log")[0];
+        	if(w == undefined){
+        		div.appendChild(innerDiv);	
+        	}else{
+        		div.insertBefore(innerDiv, document.getElementsByName("word_log")[0]);
+        	}
+        	
+        }
+        function pushAd(pId){
+        	var paper = '{"cId":4,"sId":"","data":{"fakeName":"' + localStorage.fakeName + '","paperId":"' + pId + '"}}';
+            Server.socket.send(paper);
+        }
+        function sendText(){
+        	var msg = document.getElementById("message").value;
+        	
+        	var ad=/^##\S*$/;
+        	if(ad.test(msg)){
+        		pushAd(msg.substring(2,msg.length));
+        		return;
+        	}
+        	
+        	var paper = '{"cId":3,"sId":"","data":{"fakeName":"' + localStorage.fakeName + '","msg":"' + msg + '"}}';
+            Server.socket.send(paper);
+        	
+        }
+        function demoImg(msg){
+        	var imgDiv = document.createElement("div");
+        	var img = document.createElement("img");
+        	img.setAttribute("src", msg);
+        	img.setAttribute("class", "media-object");
+			img.setAttribute("data-src", "holder.js/100x100");
+			img.setAttribute("data-holder-rendered", "true");
+			img.setAttribute("style", "width: 100px; height: 100px;");
+			
+			var a = document.createElement("a");
+			a.setAttribute("href", msg);
+			a.setAttribute("target", "_blank");
+			a.appendChild(document.createTextNode("点击查看大图"));
+			
+			imgDiv.appendChild(img);
+			imgDiv.appendChild(a);
+        	return imgDiv;
+        }
+        function demoVideo(msg){
+        	var video = document.createElement("video");
+        	video.setAttribute("src", msg);
+        	video.setAttribute("controls", "controls");
+        	video.setAttribute("width", "col-md-6 col-xs-12");
+        	return video;
+        }
+        function demoAudio(msg){
+        	var video = document.createElement("audio");
+        	video.setAttribute("src", msg);
+        	video.setAttribute("controls", "controls");
+        	video.setAttribute("width", "col-md-6 col-xs-12");
+        	return video;
+        }
+        function checkCode(e){
+        	if(e.keyCode == 13){
+        		sendText();
+        		document.getElementById("message").blur();
+        		document.getElementById("message").value="";
+        	}
+        }
+    </script>
+</body>
+</html>

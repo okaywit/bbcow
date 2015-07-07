@@ -13,7 +13,7 @@ public class ProtocolFilter extends AbstractFilter {
                 long cId = object.getLong("cId");
 
                 boolean flag = false;
-                if (cId < 3)
+                if (cId < 5)
                         flag = true;
 
                 if (flag)

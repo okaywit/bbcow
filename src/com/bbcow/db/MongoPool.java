@@ -38,6 +38,18 @@ public class MongoPool {
                 return jsons;
         }
 
+        public static String findOne(long paperId) {
+                FindIterable<Document> iterable = db.getCollection("paper").find().batchSize(1);
+                final StringBuffer json = new StringBuffer();
+                iterable.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                json.append(document.toJson());
+                        }
+                });
+                return json.toString();
+        }
+
         public static void insertPaper(Paper paper) {
                 db.getCollection("paper").insertOne(
                         new Document("id", paper.getId())

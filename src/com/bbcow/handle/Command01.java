@@ -35,9 +35,8 @@ public class Command01 implements ICommand {
 
                 for (Iterator<CowSession> it = CowCache.cowMap.values().iterator(); it.hasNext();) {
                         try {
-                        		System.out.println(JSONObject.toJSONString(paper));
                                 Session s = it.next().getSession();
-                                s.getBasicRemote().sendText(RequestParam.returnJson(1, JSONObject.toJSONString(paper)));
+                                s.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, JSONObject.toJSONString(paper)));
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
