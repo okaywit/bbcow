@@ -209,6 +209,11 @@
         	var head = document.createElement("h4");
         	head.setAttribute("class", "media-heading");
         	head.appendChild(document.createTextNode(this.title));
+        	
+        	var id = document.createElement("small");
+        	id.appendChild(document.createTextNode("  ##"+this.id));
+        	head.appendChild(id);
+        	
         	var content = document.createElement("p");
         	content.appendChild(document.createTextNode(this.content));
         	var bul = document.createElement("ul");

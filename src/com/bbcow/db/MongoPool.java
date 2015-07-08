@@ -39,7 +39,7 @@ public class MongoPool {
         }
 
         public static String findOne(long paperId) {
-                FindIterable<Document> iterable = db.getCollection("paper").find().batchSize(1);
+                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:"+paperId+"}")).batchSize(1);
                 final StringBuffer json = new StringBuffer();
                 iterable.forEach(new Block<Document>() {
                         @Override

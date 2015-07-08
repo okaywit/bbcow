@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bbcow.CowCache;
 import com.bbcow.CowSession;
 import com.bbcow.db.MongoPool;
+import com.bbcow.filter.AbstractFilter;
 import com.bbcow.util.RequestParam;
 
 /**
@@ -56,8 +57,8 @@ public class BusController {
 
         @OnMessage
         public void message(String message, Session session) {
-                boolean result = CowCache.filterChain.filter(message);
-                if (result) {
+        	AbstractFilter.startChain(message);
+                /*if (result) {
                         JSONObject object = JSONObject.parseObject(message);
                         CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
                 } else {
@@ -66,7 +67,7 @@ public class BusController {
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
-                }
+                }*/
         }
 
         @OnClose

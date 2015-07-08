@@ -10,5 +10,24 @@ public abstract class AbstractFilter {
                 this.nextFilter = nextFilter;
         }
 
-        public abstract boolean filter(String message);
+        public abstract void filter(Message message);
+        
+        
+        public static void startChain(String message){
+        	AbstractFilter protocolFilter = new ProtocolFilter();
+            AbstractFilter messageFilter = new MessageFilter();
+            
+            protocolFilter.setNextFilter(messageFilter);
+            protocolFilter.filter(new Message(message));
+        }
+        
+        static class Message{
+        	int cId;
+        	String originMessage;
+        	String dealMessage;
+        	Message(String message){
+        		this.originMessage = message;
+        	}
+        	
+        }
 }

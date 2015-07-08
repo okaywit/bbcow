@@ -1,6 +1,6 @@
 package com.bbcow.filter;
 
-import com.alibaba.fastjson.JSONObject;
+import com.bbcow.CowCache;
 
 /**
  * 指令检测链-协议
@@ -8,17 +8,14 @@ import com.alibaba.fastjson.JSONObject;
 public class ProtocolFilter extends AbstractFilter {
 
         @Override
-        public boolean filter(String message) {
-                JSONObject object = JSONObject.parseObject(message);
-                long cId = object.getLong("cId");
+        public void filter(Message message) {
 
-                boolean flag = false;
-                if (cId < 5)
-                        flag = true;
-
-                if (flag)
-                        return this.nextFilter.filter(object.getString("data"));
-                return flag;
+        	String head = message.originMessage.substring(message.originMessage.indexOf(":")+1, message.originMessage.indexOf(","));
+        	
+        	message.cId = Integer.parseInt(head);
+        	
+            this.nextFilter.filter(message);
+            CowCache.commandMap.get(message.cId).process(message.dealMessage);
         }
 
 }

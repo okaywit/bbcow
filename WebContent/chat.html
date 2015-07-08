@@ -12,10 +12,16 @@
 
 <body class="container">
 	<div class="row" style="height:100%">
+        <div class="col-md-12 col-xs-12" role="main" id="ad_box" >
+		    
+		</div>
+	</div>
+	<div class="row" style="height:100%">
         <div class="col-md-12 col-xs-12 well" role="main" id="chat_log" >
 		    
 		</div>
 		<div class="col-md-12 col-xs-12" role="complementary" id="demo" >
+			 <h4>推广：##id eg:##1436273041274</h4>
 			 <h4>修改名称：@新名称</h4>
 			 <h4>视频、音频、图片只支持地址发送</h4>
 			 <small>视频发送：http://grownbook.com/content/video.mp4，格式支持：mp4,webm,avi</small><br/>
@@ -50,9 +56,40 @@
             	showMsg(data["data"]["msg"],data["data"]["fakeName"]);
             }
             if(data["type"]==3){
-            	showMsg(data["data"]["title"],"推广");
+            	showAd(data["data"]["title"]);
             }
         };
+
+        function showAd(title){
+        	var ads = document.getElementsByName("ad_log");
+        	var div = document.getElementById("ad_box");
+        	
+        	var innerDiv = document.createElement("div");
+        	innerDiv.setAttribute("class","alert alert-warning alert-dismissible");
+        	innerDiv.setAttribute("role","alert");
+        	innerDiv.setAttribute("name","ad_log");
+        	
+        	var closeButton = document.createElement("button");
+        	closeButton.setAttribute("type","button");
+        	closeButton.setAttribute("class","close");
+        	closeButton.setAttribute("data-dismiss","alert");
+        	closeButton.setAttribute("aria-label","Close");
+        	
+        	var closeSpan = document.createElement("span");
+        	closeSpan.setAttribute("aria-hidden","true");
+        	closeSpan.appendChild(document.createTextNode("x"));
+        	
+        	closeButton.appendChild(closeSpan);
+        	
+        	innerDiv.appendChild(closeButton);
+        	innerDiv.appendChild(document.createTextNode(title));
+        	
+        	if(ads.length>1){
+        		div.removeChild(ads[0]);
+        	}
+        	
+        	div.appendChild(innerDiv);
+        }
         function showMsg(msg,fakeName){
         	var div = document.getElementById("chat_log");
         	var innerDiv = document.createElement("div");
@@ -64,7 +101,7 @@
         	var videoReg=/^\S*.(mp4|mpge4|webm|avi){1}$/;  
         	var audioReg=/^\S*.(mp3|ogg|aac){1}$/;  
         	var changeName=/^@\S*$/;
-        	var ad=/^##\S*$/;
+        	
         	if(imgReg.test(msg)){
         		innerDiv.appendChild(demoImg(msg));
         	}else if(videoReg.test(msg)){
@@ -73,9 +110,6 @@
         		innerDiv.appendChild(demoAudio(msg));
         	}else if(changeName.test(msg)){
         		localStorage.fakeName = msg.substring(1,msg.length);
-        		return;
-        	}else if(ad.test(msg)){
-        		pushAd(msg.substring(2,msg.length));
         		return;
         	}else{
         		innerDiv.appendChild(document.createTextNode(msg));	
@@ -95,8 +129,7 @@
         }
         function sendText(){
         	var msg = document.getElementById("message").value;
-        	
-        	var ad=/^##\S*$/;
+        	var ad=/^#{2}\S*$/;
         	if(ad.test(msg)){
         		pushAd(msg.substring(2,msg.length));
         		return;
