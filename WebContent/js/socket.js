@@ -20,9 +20,7 @@ Server.connect = (function(host){
 
     };
 });
-Server.init = function(){
-	var host = window.location.host;
-	Server.connect("ws://"+host+"/bb");
-};
+
+var host = window.location.host;
 
 

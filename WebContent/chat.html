@@ -20,10 +20,9 @@
         <div class="col-md-12 col-xs-12 well" role="main" id="chat_log" >
 		    
 		</div>
-		<div class="col-md-12 col-xs-12" role="complementary" id="demo" >
-			 <h4>推广：##id eg:##1436273041274</h4>
-			 <h4>修改名称：@新名称</h4>
-			 <h4>视频、音频、图片只支持地址发送</h4>
+		<div class="col-md-12 col-xs-12 hidden-xs" id="demo" >
+			 <small>推广信息：##id eg:##1436273041274</small><br/>
+			 <small>修改名称：@新名称</small><br/>
 			 <small>视频发送：http://grownbook.com/content/video.mp4，格式支持：mp4,webm,avi</small><br/>
 			 <small>音频发送：http://grownbook.com/content/audio.mp3，格式支持：mp3,ogg,aac</small><br/>
 			 <small>图片发送：http://grownbook.com/img/fp.jpg，格式支持：bmp,jpg,png,gif</small>
@@ -48,7 +47,7 @@
 	
 	<nav class="navbar navbar-inverse navbar-fixed-bottom">
     	<div class="container">
-	    	<input type="text" class="form-control" id="message" onkeydown="checkCode(event)" placeholder="Enter发送，支持文字、视频URL、音频URL、图片URL">
+	    	<input type="text" class="form-control input-lg" id="message" onkeydown="checkCode(event)" placeholder="Enter发送，支持文字、视频URL、音频URL、图片URL">
 		</div>
     </nav>
 	

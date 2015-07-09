@@ -1,4 +1,5 @@
-Server.init();
+Server.connect("ws://"+host+"/chat");
+
 if (localStorage.fakeName == undefined) {
 	localStorage.fakeName = prompt("请输入一个屌炸天的名称", "");
 	if (localStorage.fakeName == null || localStorage.fakeName.trim() == "") {
@@ -103,8 +104,7 @@ function sendText() {
 		return;
 	}
 
-	var paper = '{"cId":3,"sId":"","data":{"fakeName":"'
-			+ localStorage.fakeName + '","msg":"' + msg + '"}}';
+	var paper = '{"cId":3,"sId":"","data":{"fakeName":"' + localStorage.fakeName + '","msg":"' + msg + '"}}';
 	Server.socket.send(paper);
 
 }

@@ -3,7 +3,7 @@ package com.bbcow.filter;
 import java.io.IOException;
 
 import com.bbcow.CowCache;
-import com.bbcow.handle.ICommand;
+import com.bbcow.command.ICommand;
 import com.bbcow.util.NotFindCommandException;
 
 /**

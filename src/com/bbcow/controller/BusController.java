@@ -1,6 +1,5 @@
-package com.bbcow.handle;
+package com.bbcow.controller;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicLong;
@@ -8,27 +7,21 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.bbcow.CowCache;
-import com.bbcow.CowSession;
-import com.bbcow.db.MongoPool;
-import com.bbcow.filter.AbstractFilter;
-import com.bbcow.util.RequestParam;
+import com.bbcow.util.BusTask;
 
 /**
  * 中央控制器
  * 
  * @author 大辉Face
  */
-@ServerEndpoint("/bb")
-public class BusController {
-        private volatile static AtomicLong cowIndex = new AtomicLong();
+public abstract class BusController {
+        protected volatile static AtomicLong cowIndex = new AtomicLong();
         private static Logger logger = Logger.getLogger(BusController.class);
 
         static {
@@ -39,24 +32,11 @@ public class BusController {
                 }
         }
 
-        @OnOpen
-        public void open(Session session) {
-                long index = cowIndex.getAndIncrement();
-                CowCache.cowMap.put(session.getId(), new CowSession(index, session));
-                logger.info(session.getId() + " come in! ");
-                try {
-                        for (String s : MongoPool.findAllWithJson()) {
-                                session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, s));
-                        }
-
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-        }
+        public abstract void open(Session session);
 
         @OnMessage
         public void message(String message, Session session) {
-                AbstractFilter.startChain(message, session);
+                CowCache.threads.execute(new BusTask(message, session));
         }
 
         @OnClose

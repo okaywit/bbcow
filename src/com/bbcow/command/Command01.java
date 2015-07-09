@@ -1,4 +1,4 @@
-package com.bbcow.handle;
+package com.bbcow.command;
 
 import java.io.IOException;
 import java.util.Iterator;

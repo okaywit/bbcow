@@ -1,4 +1,4 @@
-Server.init();
+Server.connect("ws://"+host+"/bb");
 var i=0;
 Server.socket.onmessage=function(message){
 var data = eval('('+message.data+')');
