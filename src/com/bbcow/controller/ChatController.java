@@ -1,7 +1,6 @@
 package com.bbcow.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -25,13 +24,10 @@ public class ChatController extends BusController {
                 long index = cowIndex.getAndIncrement();
                 CowCache.cowMap.put(session.getId(), new CowSession(index, session));
 
-                for (Iterator<CowSession> it = CowCache.cowMap.values().iterator(); it.hasNext();) {
-                        try {
-                                Session s = it.next().getSession();
-                                s.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_CHAT, "{\"fakeName\":\"八牛号外\",\"msg\":\"欢迎\"}"));
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
+                try {
+                        session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_CHAT, "{\"fakeName\":\"八牛号外\",\"msg\":\"欢迎\"}"));
+                } catch (IOException e) {
+                        e.printStackTrace();
                 }
 
         }
