@@ -1,5 +1,7 @@
 package com.bbcow.filter;
 
+import javax.websocket.Session;
+
 /**
  * 指令检测链
  */
@@ -11,23 +13,25 @@ public abstract class AbstractFilter {
         }
 
         public abstract void filter(Message message);
-        
-        
-        public static void startChain(String message){
-        	AbstractFilter protocolFilter = new ProtocolFilter();
-            AbstractFilter messageFilter = new MessageFilter();
-            
-            protocolFilter.setNextFilter(messageFilter);
-            protocolFilter.filter(new Message(message));
+
+        public static void startChain(String message, Session session) {
+                AbstractFilter protocolFilter = new ProtocolFilter();
+                AbstractFilter messageFilter = new MessageFilter();
+
+                protocolFilter.setNextFilter(messageFilter);
+                protocolFilter.filter(new Message(message, session));
         }
-        
-        static class Message{
-        	int cId;
-        	String originMessage;
-        	String dealMessage;
-        	Message(String message){
-        		this.originMessage = message;
-        	}
-        	
+
+        static class Message {
+                int cId;
+                String originMessage;
+                String dealMessage;
+                Session session;
+
+                Message(String message, Session session) {
+                        this.originMessage = message;
+                        this.session = session;
+                }
+
         }
 }

@@ -15,7 +15,6 @@ import javax.websocket.server.ServerEndpoint;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bbcow.CowCache;
 import com.bbcow.CowSession;
 import com.bbcow.db.MongoPool;
@@ -57,17 +56,7 @@ public class BusController {
 
         @OnMessage
         public void message(String message, Session session) {
-        	AbstractFilter.startChain(message);
-                /*if (result) {
-                        JSONObject object = JSONObject.parseObject(message);
-                        CowCache.commandMap.get(object.getInteger("cId")).process(object.getString("data"));
-                } else {
-                        try {
-                                session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_ERROR, "{}"));
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
-                }*/
+                AbstractFilter.startChain(message, session);
         }
 
         @OnClose

@@ -20,9 +20,10 @@ public class Command04 implements ICommand {
         public void process(String message) {
                 JSONObject object = JSONObject.parseObject(message);
                 String fakeName = object.getString("fakeName");
-                long paperId = object.getLongValue("paperId");
+                //过滤 ## 标示
+                String paperId = object.getString("paperId").replaceAll("#", "");
 
-                String ad = MongoPool.findOne(paperId);
+                String ad = MongoPool.findOne(Long.parseLong(paperId));
                 for (Iterator<CowSession> it = CowCache.cowMap.values().iterator(); it.hasNext();) {
                         try {
                                 Session s = it.next().getSession();

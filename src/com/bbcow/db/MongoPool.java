@@ -27,7 +27,7 @@ public class MongoPool {
         }
 
         public static List<String> findAllWithJson() {
-                FindIterable<Document> iterable = db.getCollection("paper").find();
+                FindIterable<Document> iterable = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:1}"));
                 final List<String> jsons = new LinkedList<String>();
                 iterable.forEach(new Block<Document>() {
                         @Override
@@ -39,7 +39,7 @@ public class MongoPool {
         }
 
         public static String findOne(long paperId) {
-                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:"+paperId+"}")).batchSize(1);
+                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + paperId + "}")).batchSize(1);
                 final StringBuffer json = new StringBuffer();
                 iterable.forEach(new Block<Document>() {
                         @Override
@@ -59,6 +59,7 @@ public class MongoPool {
                                 .append("contactTel", paper.getContactTel())
                                 .append("tag", paper.getTag())
                                 .append("imgUrl", paper.getImgUrl())
+                                .append("linkUrl", paper.getLinkUrl())
                                 .append("createDate", new Date())
                                 .append("goodCount", paper.getGoodCount())
                                 .append("badCount", paper.getBadCount()));

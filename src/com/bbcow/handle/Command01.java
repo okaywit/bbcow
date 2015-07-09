@@ -28,6 +28,7 @@ public class Command01 implements ICommand {
                 paper.setTag(object.getString("tag"));
                 paper.setTitle(object.getString("title"));
                 paper.setImgUrl(object.getString("imgUrl"));
+                paper.setLinkUrl(object.getString("linkUrl"));
                 paper.setBadCount(0);
                 paper.setGoodCount(0);
 

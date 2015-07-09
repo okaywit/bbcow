@@ -8,6 +8,7 @@ public class Paper {
         private String contactTel;
         private String tag;
         private String imgUrl;
+        private String linkUrl;
         private long goodCount;
         private long badCount;
 
@@ -81,6 +82,14 @@ public class Paper {
 
         public void setImgUrl(String imgUrl) {
                 this.imgUrl = imgUrl;
+        }
+
+        public String getLinkUrl() {
+                return linkUrl;
+        }
+
+        public void setLinkUrl(String linkUrl) {
+                this.linkUrl = linkUrl;
         }
 
 }
