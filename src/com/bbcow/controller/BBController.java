@@ -25,7 +25,7 @@ public class BBController extends BusController {
                 CowCache.cowMap.put(session.getId(), new CowSession(index, session));
 
                 try {
-                        for (String s : MongoPool.findAllWithJson()) {
+                        for (String s : MongoPool.findIndex()) {
                                 session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, s));
                         }
 

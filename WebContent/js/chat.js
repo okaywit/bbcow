@@ -16,7 +16,7 @@ Server.socket.onmessage = function(message) {
 		showMsg(data["data"]["msg"], data["data"]["fakeName"]);
 	}
 	if (data["type"] == 3) {
-		showAd(data["data"]["title"], data["data"]["linkUrl"],
+		showAd(data["data"]["title"],data["data"]["content"], data["data"]["linkUrl"],
 				data["data"]["imgUrl"]);
 	}
 };
@@ -27,7 +27,7 @@ function openAd(title, linkUrl) {
 					title,
 					'height=400,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
-function showAd(title, linkUrl, imgUrl) {
+function showAd(title,content, linkUrl, imgUrl) {
 	var ads = document.getElementsByName("ad_log");
 	var div = document.getElementById("ad_box");
 
@@ -35,17 +35,20 @@ function showAd(title, linkUrl, imgUrl) {
 	innerDiv.setAttribute("class", "col-md-12 col-xs-12 alert");
 	innerDiv.setAttribute("role", "alert");
 	innerDiv.setAttribute("name", "ad_log");
+	var titleArea = document.createElement("strong");
 
 	if (imgUrl != undefined && imgUrl.trim() != "") {
 		innerDiv.setAttribute("style", "background:url('" + imgUrl
 				+ "') repeat-x");
-
+		innerDiv.setAttribute("onclick", "openAd(\'" + title + "\',\'"
+				+ imgUrl + "')");
+		titleArea.appendChild(document.createTextNode(title));
 	} else {
 		innerDiv.setAttribute("class", "alert alert-warning");
+		titleArea.appendChild(document.createTextNode(content));
 	}
 
-	var titleArea = document.createElement("strong");
-	titleArea.appendChild(document.createTextNode(title));
+	
 	innerDiv.appendChild(titleArea);
 	if (linkUrl != undefined && linkUrl.trim() != "") {
 		innerDiv.setAttribute("onclick", "openAd(\'" + title + "\',\'"
@@ -63,25 +66,41 @@ function showMsg(msg, fakeName) {
 	var innerDiv = document.createElement("div");
 	innerDiv.setAttribute("class", "row");
 	innerDiv.setAttribute("name", "word_log");
-	innerDiv.appendChild(document.createTextNode(fakeName + ": "));
+	//innerDiv.appendChild(document.createTextNode(fakeName + ": "));
+	
+	var name = document.createElement("div");
+	name.setAttribute("class", "col-md-3 col-xs-3 text-warning");
+	name.appendChild(document.createTextNode(fakeName + " ： "));
+	
+	/*var content = document.createElement("h4");
+	content.appendChild(document.createTextNode(fakeName + ": "));*/
+	var content = document.createElement("div");
+	content.setAttribute("class", "col-md-9 col-xs-9 text-info");
+	
 
 	var imgReg = /^\S*.(bmp|jpg|tiff|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw){1}$/;
 	var videoReg = /^\S*.(mp4|mpge4|webm|avi){1}$/;
 	var audioReg = /^\S*.(mp3|ogg|aac){1}$/;
 	var changeName = /^@\S*$/;
 
+	
+
+	innerDiv.appendChild(name);
 	if (imgReg.test(msg)) {
-		innerDiv.appendChild(demoImg(msg));
+		content.appendChild(demoImg(msg));
 	} else if (videoReg.test(msg)) {
-		innerDiv.appendChild(demoVideo(msg));
+		content.appendChild(demoVideo(msg));
 	} else if (audioReg.test(msg)) {
-		innerDiv.appendChild(demoAudio(msg));
+		content.appendChild(demoAudio(msg));
 	} else if (changeName.test(msg)) {
 		localStorage.fakeName = msg.substring(1, msg.length);
 		return;
 	} else {
-		innerDiv.appendChild(document.createTextNode(msg));
+		var small = document.createElement("p");
+		small.appendChild(document.createTextNode(msg));
+		content.appendChild(small);
 	}
+	innerDiv.appendChild(content);
 
 	var w = document.getElementsByName("word_log")[0];
 	if (w == undefined) {

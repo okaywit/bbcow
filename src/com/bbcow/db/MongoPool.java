@@ -1,8 +1,10 @@
 package com.bbcow.db;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import org.bson.BsonDocument;
 import org.bson.Document;
@@ -19,6 +21,7 @@ import com.mongodb.client.MongoDatabase;
  * @author 大辉Face
  */
 public class MongoPool {
+        private static SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
         private static MongoClient mongoClient;
         private static MongoDatabase db;
         static {
@@ -26,28 +29,40 @@ public class MongoPool {
                 db = mongoClient.getDatabase("okaywit");
         }
 
-        public static List<String> findAllWithJson() {
-                FindIterable<Document> iterable = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:1}"));
+        /**
+         * 获取热门信息+当天信息
+         */
+        public static List<String> findIndex() {
+                FindIterable<Document> top = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:-1}")).limit(2);
+
+                FindIterable<Document> current = db.getCollection("paper").find(BsonDocument.parse("{createDate:{$gte:ISODate('" + sFormat.format(new Date()) + "T00:00:00.000Z')}}"));
                 final List<String> jsons = new LinkedList<String>();
-                iterable.forEach(new Block<Document>() {
+
+                current.forEach(new Block<Document>() {
                         @Override
                         public void apply(final Document document) {
                                 jsons.add(document.toJson());
                         }
                 });
+
+                final Stack<String> topSk = new Stack<String>();
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                topSk.push(document.toJson());
+                        }
+                });
+                while (!topSk.isEmpty())
+                        jsons.add(topSk.pop());
+
                 return jsons;
         }
 
         public static String findOne(long paperId) {
-                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + paperId + "}")).batchSize(1);
-                final StringBuffer json = new StringBuffer();
-                iterable.forEach(new Block<Document>() {
-                        @Override
-                        public void apply(final Document document) {
-                                json.append(document.toJson());
-                        }
-                });
-                return json.toString();
+                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + paperId + "}"));
+                Document document = iterable.first();
+
+                return document.toJson();
         }
 
         public static void insertPaper(Paper paper) {
@@ -72,6 +87,17 @@ public class MongoPool {
 
         public static void doNotLike(long id) {
                 db.getCollection("paper").updateOne(BsonDocument.parse("{id:" + id + "}"), BsonDocument.parse("{$inc:{badCount:1}}"));
+
+                FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + id + ",badCount:{$gt:10}}"));
+                Document document = iterable.first();
+                if (document != null) {
+                        long gc = document.getLong("goodCount");
+                        long bc = document.getLong("badCount");
+                        if (gc < bc) {
+                                db.getCollection("paper_rubbish").insertOne(document.append("inDate", new Date()));
+                                db.getCollection("paper").deleteOne(BsonDocument.parse("{id:" + id + "}"));
+                        }
+                }
         }
 
         public static void doLike(long id) {
