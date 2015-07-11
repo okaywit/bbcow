@@ -38,22 +38,19 @@ public class MongoPool {
                 FindIterable<Document> current = db.getCollection("paper").find(BsonDocument.parse("{createDate:{$gte:ISODate('" + sFormat.format(new Date()) + "T00:00:00.000Z')}}"));
                 final List<String> jsons = new LinkedList<String>();
 
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                        	jsons.add(document.toJson());
+                        }
+                });
+                
                 current.forEach(new Block<Document>() {
                         @Override
                         public void apply(final Document document) {
                                 jsons.add(document.toJson());
                         }
                 });
-
-                final Stack<String> topSk = new Stack<String>();
-                top.forEach(new Block<Document>() {
-                        @Override
-                        public void apply(final Document document) {
-                                topSk.push(document.toJson());
-                        }
-                });
-                while (!topSk.isEmpty())
-                        jsons.add(topSk.pop());
 
                 return jsons;
         }
