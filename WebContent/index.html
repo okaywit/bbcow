@@ -9,39 +9,78 @@
 </head>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-<body class="container">
-	<div class="row" id="ad" >
-        <div class="col-md-12 col-xs-12 hidden-xs">
-		    <script type="text/javascript">
-		    /*专题页*/
-		    var cpro_id = "u1987591";
-			</script>
-			<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+<style type="text/css">
+	body {
+	  padding-top: 50px;
+	}
+</style>
+<body class="container-fluid">
+	<nav class="navbar navbar-default navbar-fixed-top">
+    	<div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">八牛号外</a>
+		    </div>
+	    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	        	<button  type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
+	        	<a href="chat.html" class="btn btn-default navbar-btn" target="_blank">BBbox</a>	
+	        </div>
 		</div>
-		<div class="col-md-12 col-xs-12 visible-xs">
-			<script type="text/javascript">
-			    /*移动*/
-			    var cpro_id = "u2198224";
-			</script>
-			<script src="http://cpro.baidustatic.com/cpro/ui/cm.js" type="text/javascript"></script>
-		</div>
-	</div>
-	<div class="row">
-	    <div class="col-md-9 col-xs-12" role="main">
-			<ul class="media-list" id="media">
-				<li class="media" id="firstMedia"></li>
-			</ul>
-		</div>
+    </nav>
+	<div class="row starter-template">
+		<div class="col-md-9 col-xs-12">
+		    <div class="col-md-12 col-xs-12" id="media_top100_box" role="main"></div>
+		    <div class="col-md-12 col-xs-12" id="media_yesterday_box" role="main"></div>
+		    <div class="col-md-12 col-xs-12 hidden-xs">
+			    <script type="text/javascript">
+			    /*专题页*/
+			    var cpro_id = "u1987591";
+				</script>
+				<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+			</div>
+			<div class="col-md-12 col-xs-12 visible-xs">
+				<script type="text/javascript">
+				    /*移动*/
+				    var cpro_id = "u2198224";
+				</script>
+				<script src="http://cpro.baidustatic.com/cpro/ui/cm.js" type="text/javascript"></script>
+			</div>
+		    <div class="col-md-12 col-xs-12" id="media_box" role="main"></div>
+	    </div>
 		<div class="col-md-3 col-xs-12" role="complementary">
-			<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix well">
-	            <ul class="nav bs-docs-sidenav" id="l">
-		            <li><a class="back-to-top" href="#top">
-		              	返回顶部
-		            </a></li>
-	            </ul>
-	        </nav>
-	        
+			<h4>筛选</h4>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="" onclick="addMedia(this)" checked="checked" disabled readonly>TOP 2</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="" checked="checked" disabled readonly>今天</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="4" onclick="addMedia(this)">昨天</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="5" onclick="addMedia(this)">TOP 100</label>
+			</div>
+			<div class="hidden-xs">
+				<script type="text/javascript">
+				    /*侧栏*/
+				    var cpro_id = "u2201951";
+				</script>
+				<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+			</div>
+			<div class="visible-xs">
+				<script type="text/javascript">
+				    /*侧栏*/
+				    var cpro_id = "u2201956";
+				</script>
+				<script src="http://cpro.baidustatic.com/cpro/ui/cm.js" type="text/javascript"></script>
+			</div>
 		</div>
 	</div>
 	<!-- Button trigger modal -->
@@ -72,31 +111,8 @@
 		    </div>
 	    </form>
 	  </div>
-	</div>
-             
-	<script type="text/javascript">
-	    var cpro_id="u1987591";
-	    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"250",pat:"17",tn:"baiduCustNativeAD",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"",titFS:"14",rss2:"#000000",titSU:"0"}
-	</script>
-	<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>           
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-    	<div class="container">
-		    <!-- Brand and toggle get grouped for better mobile display -->
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand" href="#">八牛号外</a>
-		    </div>
-	    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	        	<button  type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
-	        	<a href="chat.html" class="btn btn-default navbar-btn" target="_blank">BBbox</a>	
-	        </div>
-		</div>
-    </nav>
+	</div>          
+    
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 
@@ -104,14 +120,6 @@
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/socket.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-	<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "//hm.baidu.com/hm.js?f3a7b03e683b3dc0971832145b7fadfd";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
+	
 </body>
 </html>

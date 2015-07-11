@@ -58,6 +58,44 @@ public class MongoPool {
                 return jsons;
         }
 
+        public static List<String> findTop100() {
+                FindIterable<Document> top = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:-1}")).limit(100);
+                final List<String> jsons = new LinkedList<String>();
+
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                jsons.add(document.toJson());
+                        }
+                });
+                return jsons;
+        }
+
+        public static List<String> findYesterday() {
+                Date yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                FindIterable<Document> top =
+                        db
+                                .getCollection("paper")
+                                .find(
+                                        BsonDocument.parse("{$and : [{createDate:{$gte:ISODate('"
+                                                + sFormat.format(yesterday)
+                                                + "T00:00:00.000Z')}},{createDate:{$lt:ISODate('"
+                                                + sFormat.format(new Date())
+                                                + "T00:00:00.000Z')}}] }"))
+                                .limit(100);
+                final List<String> jsons = new LinkedList<String>();
+
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                jsons.add(document.toJson());
+                        }
+                });
+                return jsons;
+        }
+
         public static String findOne(long paperId) {
                 FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + paperId + "}"));
                 Document document = iterable.first();

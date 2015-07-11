@@ -1,5 +1,7 @@
 package com.bbcow.command;
 
+import javax.websocket.Session;
+
 import com.alibaba.fastjson.JSONObject;
 import com.bbcow.db.MongoPool;
 
@@ -9,7 +11,7 @@ import com.bbcow.db.MongoPool;
 public class Command02 implements ICommand {
 
         @Override
-        public void process(String message) {
+        public void process(String message, Session session) {
                 JSONObject object = JSONObject.parseObject(message);
                 int type = object.getIntValue("type");
                 long id = object.getLongValue("id");

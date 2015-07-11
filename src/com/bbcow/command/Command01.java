@@ -18,7 +18,7 @@ import com.bbcow.util.RequestParam;
 public class Command01 implements ICommand {
 
         @Override
-        public void process(String message) {
+        public void process(String message, Session session) {
                 JSONObject object = JSONObject.parseObject(message);
                 Paper paper = new Paper();
                 paper.setId(System.currentTimeMillis());

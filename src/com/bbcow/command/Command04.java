@@ -17,7 +17,7 @@ import com.bbcow.util.RequestParam;
 public class Command04 implements ICommand {
 
         @Override
-        public void process(String message) {
+        public void process(String message, Session session) {
                 JSONObject object = JSONObject.parseObject(message);
                 String fakeName = object.getString("fakeName");
                 //过滤 ## 标示

@@ -11,7 +11,9 @@ public class RequestParam {
         public final static int MESSAGE_TYPE_ERROR = 0; //错误信息类型
         public final static int MESSAGE_TYPE_AD = 1;//推广类型
         public final static int MESSAGE_TYPE_CHAT = 2;//聊天类型
-        public final static int MESSAGE_TYPE_PUSH = 3;//聊天类型
+        public final static int MESSAGE_TYPE_PUSH = 3;//推送类型
+        public final static int MESSAGE_TYPE_YESTERDAY = 4;//昨天
+        public final static int MESSAGE_TYPE_TOP100 = 5;//前百
 
         public static void toParam(String message) {
                 JSONObject object = JSONObject.parseObject(message);

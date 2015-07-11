@@ -1,10 +1,12 @@
 package com.bbcow.command;
 
+import javax.websocket.Session;
+
 /**
- * ָ��ӿ�
+ * 指令接口
  * 
- * @author ���Face
+ * @author 大辉Face
  */
 public interface ICommand {
-        void process(String message);
+        void process(String message, Session session);
 }

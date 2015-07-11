@@ -23,7 +23,7 @@ public class ProtocolFilter extends AbstractFilter {
                                 throw new NotFindCommandException(head);
                         }
                         this.nextFilter.filter(message);
-                        CowCache.commandMap.get(message.cId).process(message.dealMessage);
+                        CowCache.commandMap.get(message.cId).process(message.dealMessage, message.session);
                 } catch (NotFindCommandException e) {
                         try {
                                 message.session.getBasicRemote().sendText("{\"type\":0,\"error\":\"未找到指令\"}");
