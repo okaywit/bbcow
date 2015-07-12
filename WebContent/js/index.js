@@ -241,6 +241,7 @@ function demo(mediaBox, pa) {
 	var cite = document.createElement("cite");
 	cite.setAttribute("title", pa.linkUrl);
 	cite.appendChild(document.createTextNode(pa.title));
+	cite.appendChild(document.createTextNode("("+pa.id+")"));
 	link.appendChild(cite);
 	footer.appendChild(link);
 	conntentDiv.appendChild(p);

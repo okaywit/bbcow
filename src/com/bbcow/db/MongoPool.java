@@ -54,7 +54,17 @@ public class MongoPool {
 
                 return jsons;
         }
-
+        /**
+         * 获取当天头条
+         */
+        public static String findDailyFirst(){
+        	FindIterable<Document> current = db.getCollection("paper").find(BsonDocument.parse("{createDate:{$gte:ISODate('" + sFormat.format(new Date()) + "T00:00:00.000Z')}}")).sort(BsonDocument.parse("{goodCount:-1}")).limit(1);
+        	if(current.first()!=null){
+            	return current.first().toJson();
+            }else{
+            	return null;
+            }
+        }
         public static List<String> findTop100() {
                 FindIterable<Document> top = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:-1}")).limit(100);
                 final List<String> jsons = new LinkedList<String>();
