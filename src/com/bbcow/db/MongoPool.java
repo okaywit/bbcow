@@ -136,8 +136,10 @@ public class MongoPool {
          * 每日重点
          */
         public static void insertDailyMain(DailyMain main) {
-                db.getCollection("daily_main").insertOne(
-                        new Document("title", main.getTitle()).append("linkUrl", main.getLinkUrl()).append("imgUrl", main.getImgUrl()).append("createDate", new Date()));
+                FindIterable<Document> iterable = db.getCollection("daily_main").find(BsonDocument.parse("{title:\"" + main.getTitle() + "\"}"));
+                if (iterable.first() == null)
+                        db.getCollection("daily_main").insertOne(
+                                new Document("title", main.getTitle()).append("linkUrl", main.getLinkUrl()).append("imgUrl", main.getImgUrl()).append("createDate", new Date()));
         }
 
         public static String findMain() {
