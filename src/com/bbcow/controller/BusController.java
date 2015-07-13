@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.bbcow.CowCache;
+import com.bbcow.util.BaiduPing;
 import com.bbcow.util.BusTask;
 
 /**
@@ -37,6 +38,7 @@ public abstract class BusController {
         @OnMessage
         public void message(String message, Session session) {
                 CowCache.threads.execute(new BusTask(message, session));
+                BaiduPing.ping();
         }
 
         @OnClose
