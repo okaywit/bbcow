@@ -17,12 +17,13 @@ import com.bbcow.command.ICommand;
  * 
  * @author 大辉Face
  */
+
 public class CowCache {
         public static ExecutorService threads = null;
         public static Map<String, CowSession> cowMap = new HashMap<String, CowSession>();
         public static Map<Integer, ICommand> commandMap = new HashMap<Integer, ICommand>();
 
-        static {
+        public static void init() {
                 commandMap.put(1, new Command01());
                 commandMap.put(2, new Command02());
                 commandMap.put(3, new Command03());

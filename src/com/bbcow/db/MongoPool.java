@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import org.bson.BsonDocument;
 import org.bson.Document;
 
+import com.bbcow.po.DailyMain;
 import com.bbcow.po.Paper;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
@@ -41,10 +41,10 @@ public class MongoPool {
                 top.forEach(new Block<Document>() {
                         @Override
                         public void apply(final Document document) {
-                        	jsons.add(document.toJson());
+                                jsons.add(document.toJson());
                         }
                 });
-                
+
                 current.forEach(new Block<Document>() {
                         @Override
                         public void apply(final Document document) {
@@ -54,17 +54,24 @@ public class MongoPool {
 
                 return jsons;
         }
+
         /**
          * 获取当天头条
          */
-        public static String findDailyFirst(){
-        	FindIterable<Document> current = db.getCollection("paper").find(BsonDocument.parse("{createDate:{$gte:ISODate('" + sFormat.format(new Date()) + "T00:00:00.000Z')}}")).sort(BsonDocument.parse("{goodCount:-1}")).limit(1);
-        	if(current.first()!=null){
-            	return current.first().toJson();
-            }else{
-            	return null;
-            }
+        public static String findDailyFirst() {
+                FindIterable<Document> current =
+                        db
+                                .getCollection("paper")
+                                .find(BsonDocument.parse("{createDate:{$gte:ISODate('" + sFormat.format(new Date()) + "T00:00:00.000Z')}}"))
+                                .sort(BsonDocument.parse("{goodCount:-1}"))
+                                .limit(1);
+                if (current.first() != null) {
+                        return current.first().toJson();
+                } else {
+                        return null;
+                }
         }
+
         public static List<String> findTop100() {
                 FindIterable<Document> top = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:-1}")).limit(100);
                 final List<String> jsons = new LinkedList<String>();
@@ -123,6 +130,20 @@ public class MongoPool {
                                 .append("createDate", new Date())
                                 .append("goodCount", paper.getGoodCount())
                                 .append("badCount", paper.getBadCount()));
+        }
+
+        /**
+         * 每日重点
+         */
+        public static void insertDailyMain(DailyMain main) {
+                db.getCollection("daily_main").insertOne(
+                        new Document("title", main.getTitle()).append("linkUrl", main.getLinkUrl()).append("imgUrl", main.getImgUrl()).append("createDate", new Date()));
+        }
+
+        public static String findMain() {
+                FindIterable<Document> iterable = db.getCollection("daily_main").find().sort(BsonDocument.parse("{createDate:-1}"));
+                Document document = iterable.first();
+                return document.toJson();
         }
 
         public static void insertPaperTrend(long paperId, int type) {

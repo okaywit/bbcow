@@ -28,7 +28,7 @@ public class BBController extends BusController {
                         for (String s : MongoPool.findIndex()) {
                                 session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, s));
                         }
-
+                        session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_DAILYMAIN, MongoPool.findMain()));
                 } catch (IOException e) {
                         e.printStackTrace();
                 }

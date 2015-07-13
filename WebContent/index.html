@@ -32,6 +32,7 @@
 	    	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	        	<button  type="button" class="btn btn-success navbar-btn" data-toggle="modal" data-target="#myModal">发布</button>
 	        	<a href="chat.html" class="btn btn-default navbar-btn" target="_blank">BBbox</a>	
+	        	<p class="navbar-text navbar-right">欢迎您： <script type="text/javascript">document.write(localStorage.fakeName)</script></p>
 	        </div>
 		</div>
     </nav>
@@ -56,7 +57,9 @@
 		    <div class="col-md-12 col-xs-12" id="media_box" role="main"></div>
 	    </div>
 		<div class="col-md-3 col-xs-12" role="complementary">
-			<h4>筛选</h4>
+			<p class="lead">每日头条</p>
+			<div class="col-md-12 col-xs-12 text-center" id="dailyMain"></div>
+			<p class="lead">筛选</p>
 			<div class="checkbox">
 			  <label><input type="checkbox" value="" onclick="addMedia(this)" checked="checked" disabled readonly>TOP 2</label>
 			</div>

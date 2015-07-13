@@ -1,6 +1,15 @@
 Server.connect("ws://" + host + "/bb");
 var i = 0;
 
+if (localStorage.fakeName == undefined) {
+	localStorage.fakeName = prompt("请输入一个屌炸天的名称", "");
+	if (localStorage.fakeName == null || localStorage.fakeName.trim() == "") {
+		localStorage.fakeName = "无名氏";
+	}
+	
+}
+document.getElementById("contactName").value=localStorage.fakeName;
+
 function addMedia(obj) {
 	var conditionType = obj.value;
 	var mediaBox = (function() {
@@ -33,7 +42,23 @@ Server.socket.onmessage = function(message) {
 	if (data["type"] == 0) {
 		alert(data["error"]);
 
-	} else {
+	}else if (data["type"] == 6) {
+		var dailyMain = document.getElementById("dailyMain");
+		var a = document.createElement("a")
+		a.setAttribute("href", data["data"]["linkUrl"]);
+		var strong = document.createElement("strong");
+		strong.appendChild(document.createTextNode(data["data"]["title"]));
+		var br = document.createElement("br");
+		var img =  document.createElement("img");
+		img.setAttribute("src", data["data"]["imgUrl"]);
+		
+		a.appendChild(strong);
+		a.appendChild(br);
+		a.appendChild(img);
+		dailyMain.appendChild(a);
+		
+		
+	}  else {
 		var pa = new Paper();
 		pa.id = data["data"]["id"]["$numberLong"];
 		if (pa.id == undefined || pa.id == Object) {
