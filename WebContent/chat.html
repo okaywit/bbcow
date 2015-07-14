@@ -3,13 +3,17 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>网络那些事 - 分享网络上的视频、音频、图片、信息</title>
-    <meta name="keywords" content="网络,广告,网络媒体,社交,微信,微博,视频,音频,图片" />
+    <meta name="keywords" content="网络,广告,网络媒体,社交,微信,微博,视频,音频,图片,reddit,www.reddit.com" />
     <meta name="description" content="分享网络上的那些事。" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta content="大辉Face 王辉" name="author">
 </head>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
+<link href="/css/flat-ui.min.css" rel="stylesheet">
+<style type="text/css">
+	body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}
+</style>
 <body class="container">
 	<div class="row" style="height:100%">
         <div class="col-md-12 col-xs-12" role="main" id="ad_box" >
@@ -18,7 +22,7 @@
 	</div>
 	<div class="row" style="height:100%">
         <div class="col-md-12 col-xs-12" role="main" id="chat_log" >
-        	<h4 class="text-center"><p class="lead"><script type="text/javascript">document.write(localStorage.fakeName)</script></p>欢迎来到八牛号外聊天室！修改名称：@新名称；推广信息：##id&nbsp;&nbsp;<a href="help.html" target="_blank">帮助</a></h4>
+        	<h6 class="text-center"><script type="text/javascript">document.write(localStorage.fakeName)</script>，欢迎来到八牛号外聊天室！修改名称：@新名称；推广信息：##id&nbsp;&nbsp;<a href="help.html" target="_blank">帮助</a></h6>
 		</div>
 	</div>
 	<div class="row" id="ad" >
@@ -52,5 +56,6 @@
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/socket.js"></script>
     <script type="text/javascript" src="js/chat.js"></script>
+    <script src="js/flat-ui.min.js"></script>
 </body>
 </html>

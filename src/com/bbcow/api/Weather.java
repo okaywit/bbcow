@@ -1,6 +1,5 @@
 package com.bbcow.api;
 
-import com.bbcow.util.ApiConnector;
 
 public class Weather {
 	/**

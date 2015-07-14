@@ -3,9 +3,9 @@ package com.bbcow;
 import javax.websocket.Session;
 
 /**
- * 会话对象
+ * 浼氳瘽
  * 
- * @author 大辉Face
+ * @author 澶ц緣Face
  */
 public class CowSession {
         private long id;

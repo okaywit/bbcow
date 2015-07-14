@@ -6,7 +6,7 @@ if (localStorage.fakeName == undefined) {
 	if (localStorage.fakeName == null || localStorage.fakeName.trim() == "") {
 		localStorage.fakeName = "无名氏";
 	}
-	
+	document.getElementById("contactName").value=localStorage.fakeName;
 }
 document.getElementById("contactName").value=localStorage.fakeName;
 
@@ -23,10 +23,8 @@ function addMedia(obj) {
 	})();
 
 	if (obj.checked) {
-		if (mediaBox.childNodes.length > 1) {
-			mediaBox.setAttribute("style", "display: block !important;")
-		} else {
-
+		mediaBox.setAttribute("style", "border-left-color: #F1C40F;display: block !important;");
+		if (mediaBox.childNodes.length <= 1) {
 			var paper = '{"cId":5,"sId":"","data":{"type":"' + conditionType
 					+ '"}}';
 			Server.socket.send(paper);
@@ -214,64 +212,104 @@ function doNotLike(id) {
 }
 
 function demo(mediaBox, pa) {
-	var media = document.createElement("blockquote");
-	media.setAttribute("class", "text-info");
+	var media = document.createElement("div");
+	media.setAttribute("class", "bs-callout bs-callout-info");
+	media.setAttribute("style", "border-left-color: #1ABC9C;");
 
 	var mediaDiv = document.createElement("div");
 	mediaDiv.setAttribute("class", "row");
+	mediaDiv.setAttribute("id", pa.id);
 
-	var imgDiv = document.createElement("div");
-
-	imgDiv.setAttribute("class", "col-md-2 col-xs-12 text-center");
 	if (this.imgUrl != undefined && pa.imgUrl.trim() != "") {
+		var imgDiv = document.createElement("div");
+		imgDiv.setAttribute("class", "col-md-1 col-xs-12 text-center");
 		var img = document.createElement("img");
-		img.setAttribute("class", "col-md-12 col-xs-12");
+		img.setAttribute("class", "col-md-12 col-xs-12 thumbnail");
+		img.setAttribute("style", "height:64px; width: 100%; display: block;");
 		img.setAttribute("src", pa.imgUrl);
 		imgDiv.appendChild(img);
-	}
 
-	var upLink = document.createElement("a");
+		mediaDiv.appendChild(imgDiv);
+	}
+	var button = document.createElement("div"); 
+	button.setAttribute("class", "btn-group");
+	
+	var upLink = document.createElement("a"); 
+	upLink.setAttribute("href", "javascript:void(0);");
+	upLink.setAttribute("class", "btn btn-xs btn-success");
+	upLink.setAttribute("onclick", "doLike(" + pa.id + ")");
+	var upI = document.createElement("i"); 
+	upI.setAttribute("id", "u" + pa.id);
+	upI.setAttribute("class", "fui-heart");
+	upI.appendChild(document.createTextNode(pa.goodCount));
+	upLink.appendChild(upI);
+	button.appendChild(upLink);
+	
+	var downLink = document.createElement("a"); 
+	downLink.setAttribute("href", "javascript:void(0);");
+	downLink.setAttribute("class", "btn btn-xs btn-warning ");
+	downLink.setAttribute("onclick", "doLike(" + pa.id + ")");
+	var downI = document.createElement("i"); 
+	downI.setAttribute("id", "d" + pa.id);
+	downI.setAttribute("class", "fui-trash");
+	downI.appendChild(document.createTextNode(pa.badCount));
+	downLink.appendChild(downI);
+	button.appendChild(downLink);
+
+	var shareLink = document.createElement("span");
+	shareLink.innerHTML = '<wb:share-button default_text="八牛号外" ralateuid="5652925314" type="button" addition="number" appkey="4284001649">';
+	shareLink.innerHTML = shareLink.innerHTML + '<iframe width="128" height="25" frameborder="0" src="http://service.weibo.com/staticjs/weibosharev2.html?url=http%3A%2F%2F'+host+'%2F&amp;type=button&amp;ralateUid=5652925314&amp;language=zh_cn&amp;appkey=4284001649&amp;title='+pa.content+'%20%2D%20'+pa.title+'&amp;searchPic=true&amp;style=number" scrolling="no" marginheight="0"></iframe>';
+	shareLink.innerHTML = shareLink.innerHTML + '</wb:share-button>';
+	button.appendChild(shareLink);
+	
+	
+	
+	/*var upLink = document.createElement("a");
+	upLink.setAttribute("href", "javascript:void(0);");
+	upLink.setAttribute("onclick", "doLike(" + pa.id + ")");
 	var upSpan = document.createElement("span");
-	upSpan.setAttribute("class",
-			"col-md-6 col-xs-6 glyphicon glyphicon-thumbs-up badge");
-	upSpan.setAttribute("aria-hidden", "true");
+	upSpan.setAttribute("class","glyphicon glyphicon-thumbs-up badge");
 	upSpan.setAttribute("id", "u" + pa.id);
-	upSpan.setAttribute("onclick", "doLike(" + pa.id + ")");
 	upSpan.appendChild(document.createTextNode(pa.goodCount));
 	upLink.appendChild(upSpan);
+	
 	var downLink = document.createElement("a");
+	downLink.setAttribute("href", "javascript:void(0);");
+	downLink.setAttribute("onclick", "doNotLike(" + pa.id + ")");
 	var downSpan = document.createElement("span");
-	downSpan.setAttribute("class",
-			"col-md-6 col-xs-6 glyphicon glyphicon-thumbs-down badge");
+	downSpan.setAttribute("class","glyphicon glyphicon-thumbs-down badge");
 	downSpan.setAttribute("aria-hidden", "true");
 	downSpan.setAttribute("id", "d" + pa.id);
-	downSpan.setAttribute("onclick", "doNotLike(" + pa.id + ")");
 	downSpan.appendChild(document.createTextNode(pa.badCount));
-	downLink.appendChild(downSpan);
-	imgDiv.appendChild(upLink);
-	imgDiv.appendChild(document.createTextNode("  "));
-	imgDiv.appendChild(downLink);
+	downLink.appendChild(downSpan);*/
+	//imgDiv.appendChild(upLink);
+	//imgDiv.appendChild(document.createTextNode("  "));
+	//imgDiv.appendChild(downLink);
 
-	mediaDiv.appendChild(imgDiv);
 
 	var conntentDiv = document.createElement("div");
-	conntentDiv.setAttribute("class", "col-md-10 col-xs-12");
+	conntentDiv.setAttribute("class", "col-md-11 col-xs-12");
 	var p = document.createElement("p");
+	p.setAttribute("style", "text-overflow:ellipsis;white-space:nowrap;overflow:hidden");
 	p.appendChild(document.createTextNode(pa.content));
-	var footer = document.createElement("footer");
-	footer.appendChild(document.createTextNode(pa.contactName + " 发表于 "));
+	
+	var footer = document.createElement("small");
+	var strong = document.createElement("strong");
+	strong.appendChild(document.createTextNode(pa.contactName))
+	footer.appendChild(strong);
+	footer.appendChild(document.createTextNode(" 发表于 "));
 	var link = document.createElement("a");
 	link.setAttribute("href", pa.linkUrl);
 	link.setAttribute("target", "_blank");
 	var cite = document.createElement("cite");
 	cite.setAttribute("title", pa.linkUrl);
 	cite.appendChild(document.createTextNode(pa.title));
-	cite.appendChild(document.createTextNode("("+pa.id+")"));
 	link.appendChild(cite);
 	footer.appendChild(link);
+	footer.appendChild(document.createTextNode(" ("+pa.id+") "));
+	footer.appendChild(button);
 	conntentDiv.appendChild(p);
 	conntentDiv.appendChild(footer);
-
 	mediaDiv.appendChild(conntentDiv);
 
 	media.appendChild(mediaDiv);
