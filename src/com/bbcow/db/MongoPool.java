@@ -10,6 +10,7 @@ import org.bson.Document;
 
 import com.bbcow.po.DailyMain;
 import com.bbcow.po.Paper;
+import com.bbcow.po.ShareHost;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
@@ -56,6 +57,23 @@ public class MongoPool {
         }
 
         /**
+         * 获取分享主机
+         */
+        public static List<String> findHost() {
+                FindIterable<Document> top = db.getCollection("share_host").find();
+                final List<String> jsons = new LinkedList<String>();
+
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                jsons.add("{\"name\":\"" + document.getString("name") + "\"}");
+                        }
+                });
+
+                return jsons;
+        }
+
+        /**
          * 获取当天头条
          */
         public static String findDailyFirst() {
@@ -72,6 +90,9 @@ public class MongoPool {
                 }
         }
 
+        /**
+         * 获取前100
+         */
         public static List<String> findTop100() {
                 FindIterable<Document> top = db.getCollection("paper").find().sort(BsonDocument.parse("{goodCount:-1}")).limit(100);
                 final List<String> jsons = new LinkedList<String>();
@@ -85,6 +106,9 @@ public class MongoPool {
                 return jsons;
         }
 
+        /**
+         * 获取昨日
+         */
         public static List<String> findYesterday() {
                 Date yesterday = new Date();
                 yesterday.setDate(yesterday.getDate() - 1);
@@ -110,11 +134,24 @@ public class MongoPool {
                 return jsons;
         }
 
+        /**
+         * 根据主键
+         */
         public static String findOne(long paperId) {
                 FindIterable<Document> iterable = db.getCollection("paper").find(BsonDocument.parse("{id:" + paperId + "}"));
                 Document document = iterable.first();
 
                 return document.toJson();
+        }
+
+        public static void insertHost(ShareHost host) {
+                db.getCollection("share_host").insertOne(
+                        new Document("ip", host.getIp())
+                                .append("port", host.getPort())
+                                .append("point", host.getPoint())
+                                .append("email", host.getEmail())
+                                .append("name", host.getName())
+                                .append("status", 0));
         }
 
         public static void insertPaper(Paper paper) {

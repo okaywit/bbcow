@@ -10,6 +10,7 @@ import com.bbcow.command.Command02;
 import com.bbcow.command.Command03;
 import com.bbcow.command.Command04;
 import com.bbcow.command.Command05;
+import com.bbcow.command.Command06;
 import com.bbcow.command.ICommand;
 
 /**
@@ -29,6 +30,7 @@ public class CowCache {
                 commandMap.put(3, new Command03());
                 commandMap.put(4, new Command04());
                 commandMap.put(5, new Command05());
+                commandMap.put(6, new Command06());
 
                 threads = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         }

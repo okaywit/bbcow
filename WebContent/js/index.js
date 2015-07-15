@@ -12,11 +12,14 @@ document.getElementById("contactName").value=localStorage.fakeName;
 
 function addMedia(obj) {
 	var conditionType = obj.value;
+	var href = "";
 	var mediaBox = (function() {
 		if (conditionType == 4) {
+			href= "#media_yesterday_box";
 			return document.getElementById("media_yesterday_box")
 		}
 		if (conditionType == 5) {
+			href= "#media_top100_box";
 			return document.getElementById("media_top100_box")
 		}
 		return null;
@@ -29,10 +32,10 @@ function addMedia(obj) {
 					+ '"}}';
 			Server.socket.send(paper);
 		}
+		location.href = href;
 	} else {
 		mediaBox.setAttribute("style", "display: none !important;")
 	}
-
 }
 
 Server.socket.onmessage = function(message) {
@@ -240,7 +243,7 @@ function demo(mediaBox, pa) {
 	upLink.setAttribute("onclick", "doLike(" + pa.id + ")");
 	var upI = document.createElement("i"); 
 	upI.setAttribute("id", "u" + pa.id);
-	upI.setAttribute("class", "fui-heart");
+	upI.setAttribute("class", "fui-triangle-up");
 	upI.appendChild(document.createTextNode(pa.goodCount));
 	upLink.appendChild(upI);
 	button.appendChild(upLink);
@@ -251,17 +254,20 @@ function demo(mediaBox, pa) {
 	downLink.setAttribute("onclick", "doLike(" + pa.id + ")");
 	var downI = document.createElement("i"); 
 	downI.setAttribute("id", "d" + pa.id);
-	downI.setAttribute("class", "fui-trash");
+	downI.setAttribute("class", "fui-triangle-down");
 	downI.appendChild(document.createTextNode(pa.badCount));
 	downLink.appendChild(downI);
 	button.appendChild(downLink);
-
-	var shareLink = document.createElement("span");
-	shareLink.innerHTML = '<wb:share-button default_text="八牛号外" ralateuid="5652925314" type="button" addition="number" appkey="4284001649">';
-	shareLink.innerHTML = shareLink.innerHTML + '<iframe width="128" height="25" frameborder="0" src="http://service.weibo.com/staticjs/weibosharev2.html?url=http%3A%2F%2F'+host+'%2F&amp;type=button&amp;ralateUid=5652925314&amp;language=zh_cn&amp;appkey=4284001649&amp;title='+pa.content+'%20%2D%20'+pa.title+'&amp;searchPic=true&amp;style=number" scrolling="no" marginheight="0"></iframe>';
-	shareLink.innerHTML = shareLink.innerHTML + '</wb:share-button>';
-	button.appendChild(shareLink);
 	
+	var shareLink = document.createElement("a"); 
+	shareLink.setAttribute("href", "http://service.weibo.com/share/share.php?url=http%3A%2F%2F"+host+"%2F&type=button&language=zh_cn&appkey=4284001649&title="+pa.content+"&pic=http%3A%2F%2F"+host+"%2Fimg%2Fbbcow.png&searchPic=true&style=simple");
+	shareLink.setAttribute("class", "btn btn-xs btn-danger ");
+	shareLink.setAttribute("target", "_blank");
+	var shareI = document.createElement("i"); 
+	shareI.setAttribute("id", "s" + pa.id);
+	shareI.setAttribute("class", "fui-heart");
+	shareLink.appendChild(shareI);
+	button.appendChild(shareLink);
 	
 	
 	/*var upLink = document.createElement("a");

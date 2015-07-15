@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -65,11 +64,11 @@ public class HtmlParser {
 
                 HttpClient client = new DefaultHttpClient();
                 try {
-                		HttpGet get = new HttpGet("https://en.m.wikipedia.org/wiki/Main_Page");
-                		get.setHeader("Connection", "close");
+                        HttpGet get = new HttpGet("https://en.m.wikipedia.org/wiki/Main_Page");
+                        get.setHeader("Connection", "close");
                         HttpResponse response = client.execute(get);
                         HttpEntity entity = response.getEntity();
-            			
+
                         is = entity.getContent();
 
                         br = new BufferedReader(new InputStreamReader(is, "utf-8"));
@@ -82,7 +81,7 @@ public class HtmlParser {
                         for (char c : cs) {
                                 str.append(c);
                         }
-                        
+
                         str.delete(0, str.indexOf("src") + 5);
                         wm.setImgUrl("https:" + str.substring(0, str.indexOf("\"")));
                         str.delete(0, str.indexOf("href") + 6);
@@ -103,6 +102,6 @@ public class HtmlParser {
         }
 
         public static void main(String[] args) {
-        	HtmlParser.getWikiMain();
+                HtmlParser.getPhotoTop();
         }
 }
