@@ -1,4 +1,17 @@
-Server.connect("ws://" + host + "/open/index");//62616e697568616f77616901
+var param = window.location.search;
+var id = (function(){
+	if(param!=undefined){
+		id = param.substring(4, param.length);
+		if(id==undefined || id.trim()==""){
+			id = "62616e697568616f77616901";
+		}
+		return id;
+	}else{
+		return "62616e697568616f77616901";
+	}
+})();
+Server.connect("ws://" + host + "/open/"+id+"");
+
 var i = 0;
 
 if (localStorage.fakeName == undefined) {
@@ -59,9 +72,7 @@ Server.socket.onmessage = function(message) {
 		dailyMain.appendChild(a);
 		
 		
-	} else if (data["type"] == 7) {
-		demoHost(data["data"]);
-	} else {
+	}  else {
 		var pa = new Paper();
 		pa.id = data["data"]["id"]["$numberLong"];
 		if (pa.id == undefined || pa.id == Object) {
@@ -82,7 +93,7 @@ Server.socket.onmessage = function(message) {
 		}
 		pa.imgUrl = data["data"]["imgUrl"];
 		pa.linkUrl = data["data"]["linkUrl"];
-		
+
 		if (data["type"] == 1) {
 			pa.packIndex();
 		} else if (data["type"] == 4) {
@@ -96,20 +107,6 @@ Server.socket.onmessage = function(message) {
 	}
 
 };
-function demoHost(data){
-	var hostBox = document.getElementById("media_host_box")
-	var hostButton = document.createElement("button");
-	hostButton.setAttribute("class", "btn btn-primary btn-block");
-	hostButton.setAttribute("onclick", "location.href='/host.html?id="+data["id"]+"'");
-	if(data["type"]!=0){
-		hostButton.setAttribute("disabled", "disabled");
-		hostButton.appendChild(document.createTextNode(data["name"]+"(未启用)"))
-	}else{
-		hostButton.appendChild(document.createTextNode(data["name"]))
-	}
-	
-	hostBox.appendChild(hostButton);
-}
 function goRelease() {
 	var title = document.getElementById("title").value;
 	var content = document.getElementById("content").value;
@@ -285,30 +282,6 @@ function demo(mediaBox, pa) {
 	shareLink.appendChild(shareI);
 	button.appendChild(shareLink);
 	
-	
-	/*var upLink = document.createElement("a");
-	upLink.setAttribute("href", "javascript:void(0);");
-	upLink.setAttribute("onclick", "doLike(" + pa.id + ")");
-	var upSpan = document.createElement("span");
-	upSpan.setAttribute("class","glyphicon glyphicon-thumbs-up badge");
-	upSpan.setAttribute("id", "u" + pa.id);
-	upSpan.appendChild(document.createTextNode(pa.goodCount));
-	upLink.appendChild(upSpan);
-	
-	var downLink = document.createElement("a");
-	downLink.setAttribute("href", "javascript:void(0);");
-	downLink.setAttribute("onclick", "doNotLike(" + pa.id + ")");
-	var downSpan = document.createElement("span");
-	downSpan.setAttribute("class","glyphicon glyphicon-thumbs-down badge");
-	downSpan.setAttribute("aria-hidden", "true");
-	downSpan.setAttribute("id", "d" + pa.id);
-	downSpan.appendChild(document.createTextNode(pa.badCount));
-	downLink.appendChild(downSpan);*/
-	//imgDiv.appendChild(upLink);
-	//imgDiv.appendChild(document.createTextNode("  "));
-	//imgDiv.appendChild(downLink);
-
-
 	var conntentDiv = document.createElement("div");
 	conntentDiv.setAttribute("class", "col-md-11 col-xs-12");
 	var p = document.createElement("p");

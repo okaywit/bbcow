@@ -6,6 +6,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.bbcow.ServerConfigurator;
 import com.bbcow.db.MongoPool;
 import com.bbcow.util.RequestParam;
 
@@ -14,8 +15,8 @@ import com.bbcow.util.RequestParam;
  * 
  * @author 大辉Face
  */
-@ServerEndpoint("/share")
-public class ShareController extends BusController {
+@ServerEndpoint(value = "/share", configurator = ServerConfigurator.class)
+public class ShareController extends AbstractController {
         @OnOpen
         @Override
         public void open(Session session) {

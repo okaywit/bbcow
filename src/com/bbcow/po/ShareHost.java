@@ -7,6 +7,7 @@ public class ShareHost {
         private String email;
         private String name;
         private int status;
+        private int type;
 
         public String getIp() {
                 return ip;
@@ -54,6 +55,14 @@ public class ShareHost {
 
         public void setStatus(int status) {
                 this.status = status;
+        }
+
+        public int getType() {
+                return type;
+        }
+
+        public void setType(int type) {
+                this.type = type;
         }
 
 }

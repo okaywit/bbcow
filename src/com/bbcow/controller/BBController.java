@@ -8,6 +8,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.bbcow.CowCache;
 import com.bbcow.CowSession;
+import com.bbcow.ServerConfigurator;
 import com.bbcow.db.MongoPool;
 import com.bbcow.util.RequestParam;
 
@@ -16,8 +17,8 @@ import com.bbcow.util.RequestParam;
  * 
  * @author 大辉Face
  */
-@ServerEndpoint("/bb")
-public class BBController extends BusController {
+@ServerEndpoint(value = "/bb", configurator = ServerConfigurator.class)
+public class BBController extends AbstractController {
         @OnOpen
         @Override
         public void open(Session session) {
@@ -28,6 +29,7 @@ public class BBController extends BusController {
                         for (String s : MongoPool.findIndex()) {
                                 session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_AD, s));
                         }
+
                         session.getBasicRemote().sendText(RequestParam.returnJson(RequestParam.MESSAGE_TYPE_DAILYMAIN, MongoPool.findMain()));
                 } catch (IOException e) {
                         e.printStackTrace();

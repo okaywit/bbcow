@@ -21,9 +21,9 @@ import com.bbcow.util.BusTask;
  * 
  * @author 大辉Face
  */
-public abstract class BusController {
+public abstract class AbstractController {
         protected volatile static AtomicLong cowIndex = new AtomicLong();
-        private static Logger logger = Logger.getLogger(BusController.class);
+        private static Logger logger = Logger.getLogger(AbstractController.class);
 
         static {
                 try {

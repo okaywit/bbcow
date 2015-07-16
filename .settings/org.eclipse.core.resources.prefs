@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/com/bbcow/controller/BusController.java=UTF-8
+encoding//src/com/bbcow/controller/AbstractController.java=UTF-8
 encoding//src/com/bbcow/filter/AbstractFilter.java=UTF-8
 encoding//src/com/bbcow/filter/MessageFilter.java=UTF-8
 encoding//src/com/bbcow/filter/ProtocolFilter.java=UTF-8

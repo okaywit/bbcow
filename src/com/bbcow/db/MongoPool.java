@@ -66,11 +66,50 @@ public class MongoPool {
                 top.forEach(new Block<Document>() {
                         @Override
                         public void apply(final Document document) {
-                                jsons.add("{\"name\":\"" + document.getString("name") + "\"}");
+                                jsons.add("{\"name\":\"" + document.getString("name") + "\",\"id\":\"" + document.getObjectId("_id") + "\",\"type\":\"" + document.getString("type") + "\"}");
                         }
                 });
 
                 return jsons;
+        }
+
+        public static List<ShareHost> findBBHost() {
+                FindIterable<Document> top = db.getCollection("share_host").find(BsonDocument.parse("{\"type\":\"0\"}"));
+
+                final List<ShareHost> hosts = new LinkedList<ShareHost>();
+
+                top.forEach(new Block<Document>() {
+                        @Override
+                        public void apply(final Document document) {
+                                ShareHost host = new ShareHost();
+                                host.setIp(document.getString("ip"));
+                                host.setEmail(document.getString("email"));
+                                host.setName(document.getString("name"));
+                                host.setPoint(document.getString("point"));
+                                host.setPort(document.getString("port"));
+                                host.setType(Integer.parseInt(document.getString("type")));
+                                host.setStatus(document.getInteger("status", 0));
+
+                                hosts.add(host);
+                        }
+                });
+
+                return hosts;
+        }
+
+        public static ShareHost findOneHost(String id) {
+                FindIterable<Document> top = db.getCollection("share_host").find(BsonDocument.parse("{\"_id\":ObjectId(\"" + id + "\")}"));
+                Document document = top.first();
+
+                ShareHost host = new ShareHost();
+                host.setIp(document.getString("ip"));
+                host.setEmail(document.getString("email"));
+                host.setName(document.getString("name"));
+                host.setPoint(document.getString("point"));
+                host.setPort(document.getString("port"));
+                host.setType(Integer.parseInt(document.getString("type")));
+                host.setStatus(document.getInteger("status", 0));
+                return host;
         }
 
         /**
@@ -151,6 +190,7 @@ public class MongoPool {
                                 .append("point", host.getPoint())
                                 .append("email", host.getEmail())
                                 .append("name", host.getName())
+                                .append("type", 0)
                                 .append("status", 0));
         }
 
